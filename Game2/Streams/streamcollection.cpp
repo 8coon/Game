@@ -15,34 +15,34 @@ void StreamCollection::flush()
     const char magic[] = SC_MAGIC;
     fs.write(magic, sizeof(magic));
 
-    buffer = records.size();
+    buffer = (int) records.size();
     fs.write((char*)(&buffer), sizeof(buffer));
 
     buffer = 0;
-    int labelPos = fs.tellp();
+    int labelPos = (int) fs.tellp();
     fs.write((char*)(&buffer), sizeof(buffer));
 
     Map<String, int> offsets;
     for (const auto& pair: records) {
-        offsets[pair.first] = fs.tellp();
+        offsets[pair.first] = (int) fs.tellp();
         for (const char& ch: pair.second) fs.write(&ch, 1);
     }
 
-    buffer = fs.tellp();
+    buffer = (int) fs.tellp();
     fs.seekp(labelPos, FileStream::beg);
     fs.write((char*)(&buffer), sizeof(buffer));
     fs.seekp(buffer, FileStream::beg);
 
     for (const auto& pair: offsets) {
         const char* key = pair.first.toStdString().c_str();
-        buffer = strlen(key);
+        buffer = (int) strlen(key);
         fs.write((char*)(&buffer), sizeof(buffer));
         fs.write(key, sizeof(char) * buffer);
 
         buffer = pair.second;
         fs.write((char*)(&buffer), sizeof(buffer));
 
-        buffer = records[pair.first].size();
+        buffer = (int) records[pair.first].size();
         fs.write((char*)(&buffer), sizeof(buffer));
     }
 
@@ -91,7 +91,7 @@ void StreamCollection::restore()
         fs.read((char*)(&buffer), sizeof(buffer));
         int len = buffer;
 
-        int lastPos = fs.tellg();
+        int lastPos = (int) fs.tellg();
         fs.seekg(offset, FileStream::beg);
 
         for (int i = 0; i < len; i++) {

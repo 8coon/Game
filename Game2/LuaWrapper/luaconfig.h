@@ -18,6 +18,7 @@ using namespace coon;
 #define FPS "FPS"
 #define FULLSCREEN "FULLSCREEN"
 #define VSYNC "VSYNC"
+#define HIGHDPI "HIGHDPI"
 
 #define CONFIG_FILE "Scripts/config.lua"
 
@@ -33,11 +34,13 @@ public:
     int getFPS();
     bool getFullscreen();
     bool getVSync();
+    bool getHighDPI();
 
     void setResolution(Vector2di resolution);
     void setFPS(int fps);
     void setFullscreen(bool fullscreen);
     void setVSync(bool vsync);
+    void setHighDPI(bool highdpi);
 };
 
 #endif // LUACONFIG_H

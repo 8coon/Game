@@ -29,7 +29,7 @@ bool UIButton::paintEvent(UISurface *surface)
     Rect rect = getSkin()->getFont()->measureText(str);
 
     if (rect.w > getWidth() - 10) {
-        for (int i = caption.size() - 4; i >= 1; i--) {
+        for (int i = (int) caption.size() - 4; i >= 1; i--) {
             str = caption.substring(0, i);
             str.append("...");
 

@@ -45,7 +45,7 @@ public:
     String getItemAt(int index) { return items[index]->getCaption(); }
     void setItemAt(int index, String item)
         { if (items[index] != NULL) delete items[index]; items[index] = new UIListBoxItem(this, item); rearrange(); }
-    int size() { return items.size(); }
+    int size() { return (int) items.size(); }
     void append(String item) { items.push_back(new UIListBoxItem(this, item)); rearrange(); }
     void insert(int index, String item)
         { items.insert(items.begin() + index, new UIListBoxItem(this, item)); rearrange(); }

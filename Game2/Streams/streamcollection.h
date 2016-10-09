@@ -25,7 +25,7 @@ public:
     void putRecord(const String& key, const char* data, int len);
     void putRecord(const String& key, const char data) { records[key].push_back(data); }
     List<char>& getRecord(const String& key) { return records[key]; }
-    int getRecordLen(const String& key) { return records[key].size(); }
+    int getRecordLen(const String& key) { return (int) records[key].size(); }
     void fillBuffer(const String& key, char* buffer, int len);
 };
 

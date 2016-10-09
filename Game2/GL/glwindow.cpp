@@ -3,10 +3,14 @@
 GLWindow::GLWindow(LuaConfig *config)
 {
     this->config = config;
+    SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+        
         if (config->getFullscreen()) flags = flags | SDL_WINDOW_FULLSCREEN;
+        if (config->getHighDPI()) flags = flags | SDL_WINDOW_ALLOW_HIGHDPI;
+        
         resolution.x = config->getResolution().x;
         resolution.y = config->getResolution().y;
 
@@ -58,6 +62,22 @@ void GLWindow::processEvents()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        /*int realw = 0, realh = 0;
+        int imw = 0, imh = 0;
+        
+        SDL_GetWindowSize(this->getWindow(), &imw, &imh);
+        SDL_GL_GetDrawableSize(this->getWindow(), &realw, &realh);
+        
+        double ratiow = (realw * 1.0) / imw;
+        double ratioh = (realh * 1.0) / imh;*/
+        
+        //if (config->getHighDPI()) {
+        /*event.motion.x *= ratiow;
+        event.motion.y *= ratioh;
+        event.wheel.y *= ratioh;*/
+        //}
+        
+        
         switch (event.type) {
             case SDL_QUIT:
                 running = false;

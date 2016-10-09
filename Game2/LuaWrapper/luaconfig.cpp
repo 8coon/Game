@@ -8,6 +8,7 @@ LuaConfig::LuaConfig(): LuaWrapper()
     getRoot().setField(FPS, LuaObject(60));
     getRoot().setField(FULLSCREEN, LuaObject(FALSE));
     getRoot().setField(VSYNC, LuaObject(TRUE));
+    getRoot().setField(HIGHDPI, LuaObject(FALSE));
 
     TextFileReader reader(CONFIG_FILE);
     execute(&reader, NULL);
@@ -25,7 +26,7 @@ void LuaConfig::save()
 
         switch (pair.second->getType()) {
             case LW_NUMBER:
-                builder.append(String::fromDouble(*(pair.second->getNumber())));
+                builder.append(String::fromInt((int) *(pair.second->getNumber())));
                 break;
             case LW_STRING:
                 builder.append("\"");
@@ -74,9 +75,23 @@ bool LuaConfig::getFullscreen()
 }
 
 
+bool LuaConfig::getHighDPI()
+{
+    // return (*(getRoot().getField(HIGHDPI).getString())).equals(TRUE);
+    return false; // Сейчас сломано по вине SDL
+}
+
+
 void LuaConfig::setFullscreen(bool fullscreen)
 {
     getRoot().setField(FULLSCREEN, LuaObject((fullscreen)?(TRUE):(FALSE)));
+    save();
+}
+
+
+void LuaConfig::setHighDPI(bool highdpi)
+{
+    getRoot().setField(HIGHDPI, LuaObject((highdpi)?(TRUE):(FALSE)));
     save();
 }
 

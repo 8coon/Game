@@ -80,7 +80,7 @@ String::String(Char ch)
 String::String(const char *ch)
 {
     if (ch != NULL) {
-        int len = strlen(ch);
+        int len = (int) strlen(ch);
         for (int i = 0; i < len; i++) {
             Char cha;
 
@@ -120,8 +120,8 @@ void String::append(const String &str)
 
 String String::substring(int start, int end)
 {
-    if (start < 0) start = size();
-    if (end < 0) end = size();
+    if (start < 0) start = (int) size();
+    if (end < 0) end = (int) size();
     start %= size() + 1;
     end %= size() + 1;
 
@@ -133,7 +133,7 @@ String String::substring(int start, int end)
 
 void String::insert(int pos, const String &str)
 {
-    if (pos < 0) pos = size();
+    if (pos < 0) pos = (int) size();
     pos %= size() + 1;
     String beg = substring(0, pos);
     String end = substring(pos);
@@ -149,8 +149,8 @@ void String::insert(int pos, const String &str)
 
 void String::remove(int start, int end)
 {
-    if (start < 0) start = size();
-    if (end < 0) end = size();
+    if (start < 0) start = (int) size();
+    if (end < 0) end = (int) size();
     start %= size() + 1;
     end %= size() + 1;
 
@@ -223,7 +223,7 @@ int String::find(const String &what, int offset, const bool regexp, int *end)
             }
 
             if (found) {
-                if (end != NULL) *end = i + what.size();
+                if (end != NULL) *end = i + (int) what.size();
                 return i;
             }
         } else {
@@ -257,7 +257,7 @@ Vector<String> String::split(const String &delim, int count)
     StringBuilder line;
 
     for (int i = 0; i < (int)(size()); i++) {
-        if (substring(i, i + delim.size()).equals(delim)) {
+        if (substring(i, i + (int) delim.size()).equals(delim)) {
             result.push_back(line.toString());
             i += delim.size() - 1;
             line.clear();
@@ -416,14 +416,14 @@ Regexp::Regexp(const String &str)
                     RegexpGroup group;
                     group.addRange(RegexpRange());
                     group.one = true;
-                    groups[builder.size()] = group;
+                    groups[(int) builder.size()] = group;
                     builder.append(String('\0'));
 
                 } else if (str.at(i).equals('*')) {
                     RegexpGroup group;
                     group.addRange(RegexpRange());
                     group.one = false;
-                    groups[builder.size()] = group;
+                    groups[(int) builder.size()] = group;
                     builder.append(String('\0'));
 
                 } else if ((str.at(i).equals('[')) && (!group_opened)) {
@@ -436,7 +436,7 @@ Regexp::Regexp(const String &str)
                         i++;
                         current.one = false;
                     }
-                    groups[builder.size()] = current;
+                    groups[(int) builder.size()] = current;
                     builder.append(String('\0'));
                     group_opened = false;
 
