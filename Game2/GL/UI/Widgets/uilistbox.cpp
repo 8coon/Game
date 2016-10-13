@@ -38,7 +38,7 @@ void UIListBox::rearrange()
         items[i]->setHeight(items[i]->getMaxHeight());
         items[i]->setTag(this);
         
-        items[i]->onClick = UIListBox_onClick;
+        //items[i]->onClick = UIListBox_onClick;
 
         getContent()->getLayout()->addWidget(items[i]);
     }
