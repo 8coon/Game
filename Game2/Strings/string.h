@@ -57,6 +57,7 @@ public:
     String(const char* ch);
     String(Char ch);
     String(List<Char> &chars);
+    String(Vector<Char> &chars);
     String(const String& str) { chars = str.chars; }
 
     static String fromInt(int n) { char b[255]; sprintf(b, "%d", n); return String(b); }
@@ -99,7 +100,7 @@ public:
 };
 
 
-class StringBuilder
+/*class StringBuilder
 {
 private:
     List<Char> chars;
@@ -110,7 +111,22 @@ public:
     void clear() { chars.clear(); }
 
     String toString();
+};*/
+    
+class StringBuilder
+{
+private:
+    List<String> strings;
+    int len = 0;
+public:
+    size_t size() const { return len; }
+    void append(const Char ch) { strings.push_back(String(ch)); len += 1; }
+    void append(const String& str) { strings.push_back(str); len += str.size(); }
+    void clear() { strings.clear(); len = 0; }
+    
+    String toString();
 };
+
 
 
 String operator+(const String& lhs, const String& rhs);

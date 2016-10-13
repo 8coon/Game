@@ -366,14 +366,25 @@ void String::echo()
 
 
 
-void StringBuilder::append(const String &str)
+String::String(Vector<Char> &chars)
 {
-    for (Char ch: str) { chars.push_back(ch); }
+    this->chars.resize(chars.size());
+    int i = 0;
+    for (Char ch: chars) { this->chars[i] = ch; i++; }
 }
 
 
 String StringBuilder::toString()
 {
+    Vector<Char> chars;
+    chars.reserve(size());
+    
+    for (const String& str: strings) {
+        for (const Char& ch: str) {
+            chars.push_back(ch);
+        }
+    }
+    
     return String(chars);
 }
 

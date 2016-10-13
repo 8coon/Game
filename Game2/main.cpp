@@ -39,13 +39,13 @@ int main(/*int argc, char *argv[]*/)
     ((UIBoxLayout*)frame->getLayout())->setBorder(30);
     window->getRoot()->getLayout()->addWidget(frame);
 
-    /*UIListBox* list = new UIListBox(frame);
+    UIListBox* list = new UIListBox(frame);
     list->setName("List1");
     frame->getLayout()->addWidget(list);
 
     for (int i = 0; i < 50; i++) {
         list->append("Item " + String::fromInt(i));
-    }*/
+    }
     
     /*list->onNotify = [] (UIWidget* sender) {
         std::cout << ((UIListBox*) sender)->getSelIndex() << std::endl;
@@ -69,7 +69,7 @@ int main(/*int argc, char *argv[]*/)
     scroll->onMouseDrag =
             [](UIWidget* sender, int x, int y) { std::cout << "Dragged! " << x << "," << y << std::endl; };*/
 
-    UIButton* button = new UIButton(frame);
+    /*UIButton* button = new UIButton(frame);
     button->setName("Button1");
     button->setCaption("Press me _please_!");
     button->setRect(Rect(150, 80, 200, 40));
@@ -82,7 +82,7 @@ int main(/*int argc, char *argv[]*/)
     button->setName("Button2");
     button->setCaption("Press &rme &t_please_!");
     button->setRect(Rect(150, 80, 200, 40));
-    frame->getLayout()->addWidget(button);
+    frame->getLayout()->addWidget(button);*/
 
     /*button = new UIButton(frame);
     button->setName("Button3");

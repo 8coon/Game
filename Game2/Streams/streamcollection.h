@@ -11,16 +11,15 @@
 using namespace coon;
 
 
-class StreamCollection
+class AbstractStreamCollection
 {
 private:
-    String fileName;
     Map<String, List<char>> records;
 public:
-    StreamCollection(const String& fileName);
+    AbstractStreamCollection();
 
-    void restore();
-    void flush();
+    void restore(IOStream& fs);
+    void flush(IOStream& fs);
     void createRecord(const String& key) { records[key] = List<char>(); }
     void putRecord(const String& key, const char* data, int len);
     void putRecord(const String& key, const char data) { records[key].push_back(data); }
@@ -28,5 +27,18 @@ public:
     int getRecordLen(const String& key) { return (int) records[key].size(); }
     void fillBuffer(const String& key, char* buffer, int len);
 };
+
+
+class StreamCollection: public AbstractStreamCollection
+{
+private:
+    String fileName;
+public:
+    StreamCollection(const String& fileName);
+    
+    void restore();
+    void flush();
+};
+
 
 #endif // STREAMCOLLECTION_H

@@ -1,5 +1,6 @@
 #include "streamcollection.h"
 
+
 StreamCollection::StreamCollection(const String& fileName)
 {
     this->fileName = fileName;
@@ -10,6 +11,28 @@ void StreamCollection::flush()
 {
     FileStream fs;
     fs.open(fileName.toStdString(), FileStream::binary | FileStream::out);
+    this->AbstractStreamCollection::flush(fs);
+    fs.close();
+}
+
+
+void StreamCollection::restore()
+{
+    FileStream fs;
+    fs.open(fileName.toStdString(), FileStream::binary | FileStream::in);
+    this->AbstractStreamCollection::restore(fs);
+    fs.close();
+}
+
+
+
+AbstractStreamCollection::AbstractStreamCollection()
+{
+}
+
+
+void AbstractStreamCollection::flush(IOStream& fs)
+{
     int32_t buffer;
 
     const char magic[] = SC_MAGIC;
@@ -45,16 +68,12 @@ void StreamCollection::flush()
         buffer = (int) records[pair.first].size();
         fs.write((char*)(&buffer), sizeof(buffer));
     }
-
-    fs.close();
 }
 
 
-void StreamCollection::restore()
+void AbstractStreamCollection::restore(IOStream& fs)
 {
     records.clear();
-    FileStream fs;
-    fs.open(fileName.toStdString(), FileStream::binary | FileStream::in);
     int32_t buffer;
 
     const char magic[] = SC_MAGIC;
@@ -63,7 +82,8 @@ void StreamCollection::restore()
 
     fs.read(read, sizeof(magic));
     if (strcmp(magic, read) != 0) {
-        std::cout << "StreamCollection::restore(): corrupt file \"" << fileName << "\"" << std::endl;
+        std::cout << "AbstractStreamCollection::restore(): corrupt stream \"" <<
+                "" << "\"" << std::endl;
         delete[] read;
         return;
     }
@@ -102,18 +122,16 @@ void StreamCollection::restore()
 
         fs.seekg(lastPos, FileStream::beg);
     }
-
-    fs.close();
 }
 
 
-void StreamCollection::putRecord(const String &key, const char *data, int len)
+void AbstractStreamCollection::putRecord(const String &key, const char *data, int len)
 {
     for (int i = 0; i < len; i++) putRecord(key, data[i]);
 }
 
 
-void StreamCollection::fillBuffer(const String &key, char *buffer, int len)
+void AbstractStreamCollection::fillBuffer(const String &key, char *buffer, int len)
 {
     List<char>& list = getRecord(key);
     int i = 0;

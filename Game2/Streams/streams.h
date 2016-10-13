@@ -12,6 +12,7 @@ namespace coon {
     using IStream = std::istream;
     using OStream = std::ostream;
     using FileStream = std::fstream;
+    using IOStream = std::iostream;
 
     struct Char;
     class String;
