@@ -8,12 +8,19 @@
 #include "../../glwindow.h"
 
 #include <memory>
+#include <GLUT/GLUT.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+
 
 
 class UILayout;
 
 
 enum UIWidgetState { UI_NORMAL, UI_HOVER, UI_PRESSED, UI_GRAYED };
+
+
+class GLWindow;
 
 
 class UISurface
@@ -33,15 +40,16 @@ public:
     Point getOffset() { return offset; }
 
     virtual SDL_Renderer* getRenderer() { if (getParent() != NULL) return getParent()->getRenderer(); return NULL; }
-    virtual void drawTexture(UITexture* texture, Rect src, Rect dst);
-    virtual void drawTexture(UITexture* texture, Rect src, int x, int y);
-    virtual void drawTexture(UITexture* texture, int x, int y);
+    virtual void drawTexture(UITexture* texture, Rect src, Rect dst,
+                             GLuint gltex = 0);
+    virtual void drawTexture(UITexture* texture, Rect src, int x, int y,
+                             GLuint gltex = 0);
+    virtual void drawTexture(UITexture* texture, int x, int y, GLuint gltex = 0);
     virtual void drawWidget(UIWidgetTexture texture, int height, int width);
     virtual void drawText(UIFont* font, const String& text, Rect rect);
+    virtual GLWindow* getWindow()
+        { if (parent != NULL) return parent->getWindow(); return NULL; }
 };
-
-
-class GLWindow;
 
 
 class UIWindowSurface: public UISurface
@@ -56,7 +64,8 @@ public:
     GLWindow* getWindow() { return window; }
     SDL_Renderer* getRenderer();
 
-    void drawTexture(UITexture* texture, Rect src, Rect dst);
+    void drawTexture(UITexture* texture, Rect src, Rect dst,
+                     GLuint gltex = 0);
     void clip(Rect dst);
     void unClip() { clippingRects.pop(); }
     void clearClipping() { clippingRects = Queue<Rect>(); }
@@ -66,13 +75,22 @@ public:
 class UIRendererSurface: public UISurface
 {
 private:
-    SDL_Texture* texture;
+    //SDL_Texture* texture;
+    //SDL_Texture* prevTexture;
+    
+    GLuint frameBuffer;
+    GLuint prevFrameBuffer;
+    GLuint texture;
+    GLuint renderBuffer;
 public:
     UIRendererSurface(UISurface* parent, Rect rect);
     virtual ~UIRendererSurface();
 
     void begin();
     void end();
+    
+    GLuint getTexture() { return texture; }
+    //UIWindowSurface* getWindowParent() { return (UIWindowSurface*) getParent(); }
 };
 
 

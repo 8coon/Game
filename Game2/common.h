@@ -53,9 +53,9 @@ struct Vector2di
 
 struct Vector2df
 {
-    double x;
-    double y;
-    Vector2df(double x = 0, double y = 0) { this->x = x; this->y = y; }
+    float x;
+    float y;
+    Vector2df(float x = 0, float y = 0) { this->x = x; this->y = y; }
     Vector2df(const Vector2df& vec): Vector2df(vec.x, vec.y) {}
 };
 
@@ -72,10 +72,10 @@ struct Vector3di
 
 struct Vector3df
 {
-    double x;
-    double y;
-    double z;
-    Vector3df(double x = 0, double y = 0, double z = 0) { this->x = x; this->y = y; this->z = z; }
+    float x;
+    float y;
+    float z;
+    Vector3df(float x = 0, float y = 0, float z = 0) { this->x = x; this->y = y; this->z = z; }
     Vector3df(const Vector3df& vec): Vector3df(vec.x, vec.y, vec.z) {}
 };
 

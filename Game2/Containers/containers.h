@@ -10,6 +10,9 @@
 #include <memory>
 
 
+#define makePair(K, V) std::make_pair(K, V)
+
+
 namespace coon {
     template<typename T> using List = std::list<T>;
     template<typename T> using Vector = std::vector<T>;

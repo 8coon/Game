@@ -18,9 +18,68 @@ UIWidget::~UIWidget()
 }
 
 
+UIRendererSurface::UIRendererSurface(UISurface *parent, Rect rect): UISurface(parent, rect)
+{
+    // Todo: change
+    //texture = SDL_CreateTexture(getRenderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, rect.w, rect.h);
+    
+    glGenTextures(1, &texture);
+    glGenRenderbuffers(1, &renderBuffer);
+    glGenFramebuffers(1, &frameBuffer);
+    
+    GLint p;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &p); prevFrameBuffer = p;
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, rect.w, rect.h, 0,
+                 GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, texture, 0);
+    
+    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, rect.w, rect.h);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                              GL_RENDERBUFFER, renderBuffer);
+    
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status != GL_FRAMEBUFFER_COMPLETE) {
+        std::cout << "Failed to bind framebuffer. Does your system support " <<
+        "rendering to textures?" << std::endl;
+    }
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFrameBuffer);
+}
+
+
+UIRendererSurface::~UIRendererSurface()
+{
+    // Todo: change
+    //SDL_DestroyTexture(texture);
+    
+    glDeleteFramebuffers(1, &frameBuffer);
+    glDeleteRenderbuffers(1, &renderBuffer);
+    glDeleteTextures(1, &texture);
+}
+
+
 void UIRendererSurface::begin()
 {
-    SDL_SetRenderTarget(getRenderer(), this->texture);
+    //prevTexture = SDL_GetRenderTarget(getRenderer());
+    //SDL_SetRenderTarget(getRenderer(), this->texture);
+    
+    GLint pb;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &pb); prevFrameBuffer = pb;
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnable(GL_TEXTURE_2D);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     Point p = Point(getRect().x, getRect().y);
     UISurface* parent = getParent();
 
@@ -36,79 +95,64 @@ void UIRendererSurface::begin()
 
 void UIRendererSurface::end()
 {
-    SDL_SetRenderTarget(getRenderer(), NULL);
+    //SDL_SetRenderTarget(getRenderer(), prevTexture);
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFrameBuffer);
     setOffset(Point(0, 0));
 
-    UITexture* texObj = new UITexture(this->texture);
-    drawTexture(texObj, -getRect().x, -getRect().y);
-    texObj->setTextureUnsafe(NULL);
-    delete texObj;
+    /*float w = getRect().w;
+    float h = getRect().h;
+    Rect src = Rect(0, 0, getRect().w, getRect().h);
+    Rect dst = Rect(getRect().x, getRect().y, getRect().w, getRect().h);*/
+    
+    //getWindow()->getContext()->drawTexture(texture, src, dst, w, h);
+    
+    //UITexture* texObj = new UITexture(this->texture);
+    drawTexture(NULL, -getRect().x, -getRect().y, texture);
+    //texObj->setTextureUnsafe(NULL);
+    //delete texObj;
 }
 
 
-void UIWindowSurface::drawTexture(UITexture *texture, Rect src, Rect dst)
+void UIWindowSurface::drawTexture(UITexture *texture, Rect src, Rect dst,
+                                  GLuint gltex)
 {
-    /*ltClip = Point(0, 0);
-    rbClip = Point(65535, 65535);
-    Stack<Rect> tempStack;
-
-    while (!clippingRects.empty()) {
-        Rect clip = clippingRects.front();
-        if (clip.x > ltClip.x) ltClip.x = clip.x;
-        if (clip.y > ltClip.y) ltClip.y = clip.y;
-        if ((clip.x + clip.w) < rbClip.x) rbClip.x = clip.x + clip.w;
-        if ((clip.y + clip.h) < rbClip.y) rbClip.y = clip.y + clip.h;
-        tempStack.push(clip);
-        clippingRects.pop();
+    if (texture == NULL) {
+        getWindow()->drawTexture(gltex, src, dst, getRect().w, getRect().h);
+    } else {
+        getWindow()->drawTexture(texture, src, dst);
     }
-
-    while (!tempStack.empty()) {
-        clippingRects.push(tempStack.top());
-        tempStack.pop();
-    }
-
-    Point lt = Point(dst.x, dst.y);
-    Point rb = Point(dst.x + dst.w, dst.y + dst.h);
-    Point ltSrc = Point(src.x, src.y);
-    Point rbSrc = Point(src.x + src.w, src.y + src.h);
-
-    if (lt.x < ltClip.x) {
-        ltSrc.x += ltClip.x - lt.x;
-        lt.x = ltClip.x;
-    } else if (lt.y < ltClip.y) {
-        ltSrc.y += ltClip.y - lt.y;
-        lt.y = ltClip.y;
-    } else if (rb.x > rbClip.x) {
-        rbSrc.x -= rb.x - rbClip.x;
-        rb.x = rbClip.x;
-    } else if (rb.y > rbClip.y) {
-        rbSrc.y -= rb.y - rbClip.y;
-        rb.y = rbClip.y;
-    }
-
-    Rect _src = Rect(ltSrc.x, ltSrc.y, rbSrc.x - ltSrc.x, rbSrc.y - ltSrc.y);
-    Rect _dst = Rect(lt.x, lt.y, rb.x - lt.x, rb.y - lt.y);*/
-
-    getWindow()->drawTexture(texture, src, dst);
 }
 
 
-void UISurface::drawTexture(UITexture *texture, Rect src, Rect dst)
+void UISurface::drawTexture(UITexture *texture, Rect src, Rect dst, GLuint gltex)
 {
     Rect _dst = Rect(rect.x + offset.x + dst.x, rect.y + offset.y + dst.y, dst.w, dst.h);
-    getParent()->drawTexture(texture, src, _dst);
+    getParent()->drawTexture(texture, src, _dst, gltex);
 }
 
 
-void UISurface::drawTexture(UITexture *texture, Rect src, int x, int y)
+void UISurface::drawTexture(UITexture *texture, Rect src, int x, int y,
+                            GLuint gltex)
 {
-    drawTexture(texture, src, Rect(x, y, texture->getWidth(), texture->getHeight()));
+    Rect dst = Rect(x, y, getRect().w, getRect().h);
+    
+    if (texture != NULL) {
+        dst = Rect(x, y, texture->getWidth(), texture->getHeight());
+    }
+    
+    drawTexture(texture, src, dst, gltex);
 }
 
 
-void UISurface::drawTexture(UITexture *texture, int x, int y)
+void UISurface::drawTexture(UITexture *texture, int x, int y, GLuint gltex)
 {
-    drawTexture(texture, Rect(0, 0, texture->getWidth(), texture->getHeight()), x, y);
+    Rect src = Rect(x, y, getRect().w, getRect().h);
+    
+    if (texture != NULL) {
+        src = Rect(0, 0, texture->getWidth(), texture->getHeight());
+    }
+    
+    drawTexture(texture, src, x, y, gltex);
 }
 
 
@@ -192,18 +236,6 @@ UIWindowSurface::UIWindowSurface(GLWindow *window):
 SDL_Renderer* UIWindowSurface::getRenderer()
 {
     return getWindow()->getRenderer();
-}
-
-
-UIRendererSurface::UIRendererSurface(UISurface *parent, Rect rect): UISurface(parent, rect)
-{
-    texture = SDL_CreateTexture(getRenderer(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, rect.w, rect.h);
-}
-
-
-UIRendererSurface::~UIRendererSurface()
-{
-    SDL_DestroyTexture(texture);
 }
 
 

@@ -6,6 +6,18 @@ GLWindow::GLWindow(LuaConfig *config)
     SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 6);
+        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
+        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 6);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 6);
+        
+        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+        
         unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
         
         if (config->getFullscreen()) flags = flags | SDL_WINDOW_FULLSCREEN;
@@ -29,13 +41,20 @@ GLWindow::GLWindow(LuaConfig *config)
             std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl; return;
         }
 
-        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
         flags = IMG_INIT_PNG;
         if (!(IMG_Init(flags) & flags)) {
             std::cout << "IMG_Init error: " << IMG_GetError() << std::endl; return;
         }
+        
+        
+        /*renderTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA4444,
+                                          SDL_TEXTUREACCESS_TARGET,
+                                          config->getResolution().x,
+                                          config->getResolution().y);*/
+        //SDL_SetRenderTarget(renderer, renderTexture);
+        context = new GLContext(this);
+        //context
+        
 
         skin = new UISkin(renderer, SKIN_FILENAME);
         root = new UIWidget();
@@ -49,6 +68,7 @@ GLWindow::GLWindow(LuaConfig *config)
 
 GLWindow::~GLWindow()
 {
+    delete context;
     delete root;
     delete skin;
 
@@ -62,22 +82,6 @@ void GLWindow::processEvents()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        /*int realw = 0, realh = 0;
-        int imw = 0, imh = 0;
-        
-        SDL_GetWindowSize(this->getWindow(), &imw, &imh);
-        SDL_GL_GetDrawableSize(this->getWindow(), &realw, &realh);
-        
-        double ratiow = (realw * 1.0) / imw;
-        double ratioh = (realh * 1.0) / imh;*/
-        
-        //if (config->getHighDPI()) {
-        /*event.motion.x *= ratiow;
-        event.motion.y *= ratioh;
-        event.wheel.y *= ratioh;*/
-        //}
-        
-        
         switch (event.type) {
             case SDL_QUIT:
                 running = false;
@@ -144,7 +148,13 @@ void GLWindow::processEvents()
 
 void GLWindow::startFrame()
 {
-    SDL_RenderClear(renderer);
+    context->clear();
+    
+    //SDL_SetRenderTarget(renderer, renderTexture);
+    //SDL_RenderClear(renderer);
+    //SDL_RenderSetClipRect(getRenderer(), NULL);
+    //SDL_RenderSetViewport(getRenderer(), NULL);
+    
     lastTime = SDL_GetTicks();
 }
 
@@ -175,9 +185,21 @@ void GLWindow::endFrame()
         SDL_SetWindowTitle(window, builder.toString().toStdString().c_str());
     }
 
-    SDL_RenderSetClipRect(getRenderer(), NULL);
+    //SDL_RenderSetClipRect(getRenderer(), NULL);
     //SDL_RenderSetViewport(getRenderer(), NULL);
-    SDL_RenderPresent(renderer);
+    //SDL_RenderPresent(renderer);
+    //SDL_SetRenderTarget(renderer, NULL);
+    
+    int w = getResolution().x;
+    int h = getResolution().y;
+    
+    //UITexture* texture = new UITexture(renderTexture);
+    //context->drawTexture(texture, Rect(0, 0, w, h), Rect(0, 0, w, h));
+    context->renderPresent();
+    
+    //texture->setTextureUnsafe(NULL);
+    //delete texture;
+    
     SDL_Delay(delta);
 }
 
@@ -192,9 +214,21 @@ void GLWindow::drawUI()
 
 void GLWindow::drawTexture(UITexture *texture, Rect src, Rect dst)
 {
-    SDL_Rect _src; RECT2SDL(_src, src);
-    SDL_Rect _dst; RECT2SDL(_dst, dst);
-    SDL_RenderCopy(renderer, texture->getTexture(), &_src, &_dst);
+    //if (context->getRenderTarget() != NULL) {
+    if (context->getRenderBuffer() != 0) {
+        SDL_Rect _src; RECT2SDL(_src, src);
+        SDL_Rect _dst; RECT2SDL(_dst, dst);
+        //SDL_RenderCopy(renderer, texture->getTexture(), &_src, &_dst);
+        context->drawTexture(texture, src, dst);
+    } else {
+        context->drawTexture(texture, src, dst);
+    }
+}
+
+
+void GLWindow::drawTexture(GLuint texture, Rect src, Rect dst, float w, float h)
+{
+    context->drawTexture(texture, src, dst, w, h);
 }
 
 
