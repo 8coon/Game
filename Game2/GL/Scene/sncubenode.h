@@ -12,7 +12,6 @@
 #include "../../SDL2/SDL.h"
 #include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
 
 
 using namespace coon;
@@ -22,6 +21,8 @@ class SNCubeNode: public ISceneNode
 {
 protected:
     void render(GLContext* context);
+public:
+    SNCubeNode(const String& name): ISceneNode(name) {}
 };
 
 

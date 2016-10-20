@@ -12,7 +12,6 @@
 #include "../../SDL2/SDL.h"
 #include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
 
 
 using namespace coon;
@@ -26,10 +25,12 @@ private:
     Vector3df scale = Vector3df(1.0, 1.0, 1.0);
     Map<String, Pointer<ISceneNode>> childNodes;
     UITexture* texture = NULL;
+    String name;
 protected:
-    virtual void render(GLContext* context) = 0;
+    virtual void render(GLContext* context) {}
     virtual void renderChildren(GLContext* context);
 public:
+    ISceneNode(const String& name) { setName(name); }
     virtual ~ISceneNode() {}
     
     void draw(GLContext* context);
@@ -38,12 +39,15 @@ public:
     UITexture* getTexture() { return texture; }
     
     void addChild(const String& name, ISceneNode* node)
-        { childNodes.insert(makePair(name, Pointer<ISceneNode>(node))); }
+        { childNodes.insert(makePair(name, Pointer<ISceneNode>(node)));
+            node->setName(name);}
+    void addChild(ISceneNode* node) { addChild(node->getName(), node); }
     void removeChild(const String& name) { childNodes.erase(name); }
     void removeChildren() { childNodes.clear(); }
     bool hasChild(const String& name)
         { return childNodes.find(name) != childNodes.end(); }
     ISceneNode* getChild(const String& name) { return childNodes.at(name).get(); }
+    ISceneNode* findNodeByName(const String& name);
     
     void setPos(const Vector3df& pos) { this->pos = pos; }
     void setRot(const Vector3df& rot) { this->rot = rot; }
@@ -81,6 +85,9 @@ public:
         { return childNodes.end(); }
     Map<String, Pointer<ISceneNode>>::const_iterator end() const
         { return childNodes.end(); }
+    
+    const String& getName() { return name; }
+    void setName(const String& name) { this->name = name; }
 };
 
 #endif /* iscenenode_hpp */

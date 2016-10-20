@@ -4,8 +4,21 @@
 
 void ISceneNode::renderChildren(GLContext* context) {
     for (Pair<String, Pointer<ISceneNode>> child: *this) {
-        child.second->render(context);
+        child.second->draw(context);
     }
+}
+
+
+ISceneNode* ISceneNode::findNodeByName(const String& name)
+{
+    if (this->name == name) return this;
+    
+    for (Pair<String, Pointer<ISceneNode>> child: *this) {
+        ISceneNode* found = child.second->findNodeByName(name);
+        if (found != NULL) return found;
+    }
+    
+    return NULL;
 }
 
 

@@ -11,9 +11,10 @@
 		7D1972861DB02300006ECE51 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1972851DB02300006ECE51 /* OpenGL.framework */; };
 		7D1972881DB02308006ECE51 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1972871DB02308006ECE51 /* GLUT.framework */; };
 		7D19728B1DB0260C006ECE51 /* glcontext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972891DB0260C006ECE51 /* glcontext.cpp */; };
-		7D19728E1DB02D42006ECE51 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D19728C1DB02D42006ECE51 /* mesh.cpp */; };
 		7D1972A51DB76F30006ECE51 /* iscenenode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */; };
 		7D1972A91DB776E1006ECE51 /* sncubenode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972A71DB776E1006ECE51 /* sncubenode.cpp */; };
+		7D1972AC1DB96121006ECE51 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972AA1DB96120006ECE51 /* scene.cpp */; };
+		7D1972AF1DB96BE4006ECE51 /* uiscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972AD1DB96BE4006ECE51 /* uiscene.cpp */; };
 		7D4B3EA21DA83CC20088B2D6 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DD51DA83CC20088B2D6 /* common.cpp */; };
 		7D4B3EA31DA83CC20088B2D6 /* glwindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDA1DA83CC20088B2D6 /* glwindow.cpp */; };
 		7D4B3EA41DA83CC20088B2D6 /* uifont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDD1DA83CC20088B2D6 /* uifont.cpp */; };
@@ -59,12 +60,14 @@
 		7D1972871DB02308006ECE51 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		7D1972891DB0260C006ECE51 /* glcontext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glcontext.cpp; sourceTree = "<group>"; };
 		7D19728A1DB0260C006ECE51 /* glcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glcontext.h; sourceTree = "<group>"; };
-		7D19728C1DB02D42006ECE51 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh.cpp; path = Meshes/mesh.cpp; sourceTree = "<group>"; };
-		7D19728D1DB02D42006ECE51 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = Meshes/mesh.h; sourceTree = "<group>"; };
 		7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iscenenode.cpp; path = GL/Scene/iscenenode.cpp; sourceTree = "<group>"; };
 		7D1972A41DB76F30006ECE51 /* iscenenode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iscenenode.h; path = GL/Scene/iscenenode.h; sourceTree = "<group>"; };
 		7D1972A71DB776E1006ECE51 /* sncubenode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sncubenode.cpp; path = GL/Scene/sncubenode.cpp; sourceTree = "<group>"; };
 		7D1972A81DB776E1006ECE51 /* sncubenode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sncubenode.h; path = GL/Scene/sncubenode.h; sourceTree = "<group>"; };
+		7D1972AA1DB96120006ECE51 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scene.cpp; path = GL/Scene/scene.cpp; sourceTree = "<group>"; };
+		7D1972AB1DB96121006ECE51 /* scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scene.h; path = GL/Scene/scene.h; sourceTree = "<group>"; };
+		7D1972AD1DB96BE4006ECE51 /* uiscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uiscene.cpp; sourceTree = "<group>"; };
+		7D1972AE1DB96BE4006ECE51 /* uiscene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uiscene.h; sourceTree = "<group>"; };
 		7D4B3C2F1DA83B5C0088B2D6 /* Game2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Game2; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D4B3DD51DA83CC20088B2D6 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		7D4B3DD61DA83CC20088B2D6 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -211,15 +214,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7D19728F1DB03050006ECE51 /* Meshes */ = {
-			isa = PBXGroup;
-			children = (
-				7D19728C1DB02D42006ECE51 /* mesh.cpp */,
-				7D19728D1DB02D42006ECE51 /* mesh.h */,
-			);
-			name = Meshes;
-			sourceTree = "<group>";
-		};
 		7D1972A61DB76F47006ECE51 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +221,8 @@
 				7D1972A41DB76F30006ECE51 /* iscenenode.h */,
 				7D1972A71DB776E1006ECE51 /* sncubenode.cpp */,
 				7D1972A81DB776E1006ECE51 /* sncubenode.h */,
+				7D1972AA1DB96120006ECE51 /* scene.cpp */,
+				7D1972AB1DB96121006ECE51 /* scene.h */,
 			);
 			name = Scene;
 			path = ..;
@@ -283,7 +279,6 @@
 				7D1972891DB0260C006ECE51 /* glcontext.cpp */,
 				7D19728A1DB0260C006ECE51 /* glcontext.h */,
 				7D1972A61DB76F47006ECE51 /* Scene */,
-				7D19728F1DB03050006ECE51 /* Meshes */,
 				7D4B3DDC1DA83CC20088B2D6 /* UI */,
 			);
 			path = GL;
@@ -322,6 +317,8 @@
 				7D4B3DF11DA83CC20088B2D6 /* uiscroll.h */,
 				7D4B3DF21DA83CC20088B2D6 /* uiwidget.cpp */,
 				7D4B3DF31DA83CC20088B2D6 /* uiwidget.h */,
+				7D1972AD1DB96BE4006ECE51 /* uiscene.cpp */,
+				7D1972AE1DB96BE4006ECE51 /* uiscene.h */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -534,6 +531,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D1972AF1DB96BE4006ECE51 /* uiscene.cpp in Sources */,
 				7D4B3EA31DA83CC20088B2D6 /* glwindow.cpp in Sources */,
 				7D4B3EAB1DA83CC20088B2D6 /* uigridlayout.cpp in Sources */,
 				7D19728B1DB0260C006ECE51 /* glcontext.cpp in Sources */,
@@ -550,13 +548,13 @@
 				7D4B3EA21DA83CC20088B2D6 /* common.cpp in Sources */,
 				7D4B3EDD1DA83CC20088B2D6 /* streams.cpp in Sources */,
 				7D4B3EAE1DA83CC20088B2D6 /* uiwidget.cpp in Sources */,
+				7D1972AC1DB96121006ECE51 /* scene.cpp in Sources */,
 				7D4B3EA61DA83CC20088B2D6 /* uitexture.cpp in Sources */,
 				7D4B3EA91DA83CC20088B2D6 /* uibutton.cpp in Sources */,
 				7D4B3EDC1DA83CC20088B2D6 /* streamcollection.cpp in Sources */,
 				7D1972A91DB776E1006ECE51 /* sncubenode.cpp in Sources */,
 				7D4B3ED31DA83CC20088B2D6 /* luaconfig.cpp in Sources */,
 				7D4B3EAC1DA83CC20088B2D6 /* uilistbox.cpp in Sources */,
-				7D19728E1DB02D42006ECE51 /* mesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

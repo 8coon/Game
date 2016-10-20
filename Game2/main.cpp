@@ -20,8 +20,11 @@
 #include "GL/UI/Widgets/uigridlayout.h"
 #include "GL/UI/Widgets/uiscroll.h"
 #include "GL/UI/Widgets/uilistbox.h"
+#include "GL/UI/Widgets/uiscene.h"
 #include "GL/glcontext.h"
 #include "GL/Scene/sncubenode.h"
+#include "GL/Scene/scene.h"
+
 
 #include <time.h>
 
@@ -43,6 +46,11 @@ int main()
     window->getSkin()->getFont()->setColor(RGBA(255, 255, 255, 200));
     
     
+    UIScene* scene = new UIScene(window->getRoot());
+    scene->setContext(window->getContext());
+    window->getRoot()->getLayout()->addWidget(scene);
+    
+    
     UIFrame* frame = new UIFrame(window->getRoot());
     frame->setName("Frame1");
     frame->setRect(Rect(10, 10, 620, 460));
@@ -55,6 +63,7 @@ int main()
     button->setName("Button1");
     button->setCaption(
             "&rThe &gQuick &bBrown &rЛис");
+    button->setVisible(false);
     frame->getLayout()->addWidget(button);
     
     button = new UIButton(frame);
@@ -72,17 +81,16 @@ int main()
     }*/
     
     
-    
-    
-    SNCubeNode* cube = new SNCubeNode();
+    SNCubeNode* cube = new SNCubeNode("cube");
     cube->moveZ(-3.9f);
-    cube->moveX(0.9f);
+    //cube->moveX(0.9f);
     cube->rotateX(20.0f);
     
     UITexture* cubeTexture = new UITexture(
             window->getRenderer(), "Art/park копия.jpg");
     
     cube->setTexture(cubeTexture);
+    scene->getScene()->getRoot()->addChild(cube);
     
     //frame->setVisible(false);
     //list->setVisible(false);
@@ -92,14 +100,11 @@ int main()
         window->startFrame();
         window->processEvents();
         
-        cube->rotateY(1.0);
-        cube->draw(window->getContext());
+        scene->getScene()->findNode("cube")->rotateY(1.0f);
         
         window->drawUI();
         window->endFrame();
     }
-    
-    delete cube;
 
     delete window;
     delete config;
