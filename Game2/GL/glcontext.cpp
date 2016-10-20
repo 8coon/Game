@@ -18,6 +18,8 @@ GLContext::GLContext(GLWindow* window)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    
     SDL_GL_SetSwapInterval(1);
     
 #ifdef OSX
@@ -50,7 +52,7 @@ void GLContext::drawTextureBinded(Rect src, Rect dst, float w, float h)
     
     Point res = window->getResolution();
     pushMatrix();
-    glPushAttrib(GL_CURRENT_BIT);
+    //glPushAttrib(GL_CURRENT_BIT);
     
     glOrtho(0, res.x, res.y, 0, 0, 1000);
     
@@ -92,7 +94,7 @@ void GLContext::drawTextureBinded(Rect src, Rect dst, float w, float h)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
     
-    glPopAttrib();
+    //glPopAttrib();
     popMatrix();
 }
 
@@ -145,25 +147,36 @@ void GLContext::clear()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    pushMatrix();
+    //pushMatrix();
     
     float w = window->getResolution().x;
     float h = window->getResolution().y;
-    float r = w / h;
-    glFrustum(-r, r, -1.0, 1.0, 0.0, 10.0);
+    //float r = w / h;
     glViewport(0, 0, window->getResolution().x, window->getResolution().y);
     
-    //float w = window->getResolution().x;
-    //float h = window->getResolution().y;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     
-    //gluPerspective(60.0, w / h, 1.0, 1000.0);
+    GLfloat zNear = 0.1f;
+    GLfloat zFar = 255.0f;
+    GLfloat aspect = w / h;
+    GLfloat fOV = 45;
+    GLfloat fH = tan((float) fOV / 360.0f * 3.14159f) * zNear;
+    GLfloat fW = fH * aspect;
+    glFrustum(-fW, fW, -fH, fH, zNear, zFar);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    //gluPerspective(60.0, w / h, 0.0, 1000.0);
+ 
     //glScalef(0.5, 0.5, 0.5);
+    glEnable(GL_DEPTH_TEST);
 }
 
 
 void GLContext::renderPresent()
 {
-    popMatrix();
+    //popMatrix();
     SDL_GL_SwapWindow(this->window->getWindow());
 }
 

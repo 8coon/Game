@@ -190,8 +190,8 @@ void GLWindow::endFrame()
     //SDL_RenderPresent(renderer);
     //SDL_SetRenderTarget(renderer, NULL);
     
-    int w = getResolution().x;
-    int h = getResolution().y;
+    //int w = getResolution().x;
+    //int h = getResolution().y;
     
     //UITexture* texture = new UITexture(renderTexture);
     //context->drawTexture(texture, Rect(0, 0, w, h), Rect(0, 0, w, h));

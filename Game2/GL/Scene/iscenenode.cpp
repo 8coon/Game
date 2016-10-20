@@ -10,7 +10,7 @@ void ISceneNode::renderChildren(GLContext* context) {
 
 
 void ISceneNode::draw(GLContext* context) {
-    context->pushMatrix();
+    context->pushMatrix(GLM_BOTH, false);
     glPushAttrib(GL_CURRENT_BIT);
     
     glTranslatef(pos.x, pos.y, pos.z);
@@ -22,7 +22,10 @@ void ISceneNode::draw(GLContext* context) {
     glScalef(scale.x, scale.y, scale.z);
     
     renderChildren(context);
+    
+    if (texture != NULL) SDL_GL_BindTexture(texture->getTexture(), NULL, NULL);
     render(context);
+    if (texture != NULL) SDL_GL_UnbindTexture(texture->getTexture());
     
     glPopAttrib();
     context->popMatrix();

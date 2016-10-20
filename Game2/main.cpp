@@ -37,6 +37,12 @@ int main()
     GLWindow* window = new GLWindow(config);
     
     
+    window->getSkin()->getFont()->addColor("r", RGBA(240, 0, 0, 200));
+    window->getSkin()->getFont()->addColor("g", RGBA(0, 240, 0, 200));
+    window->getSkin()->getFont()->addColor("b", RGBA(0, 0, 240, 200));
+    window->getSkin()->getFont()->setColor(RGBA(255, 255, 255, 200));
+    
+    
     UIFrame* frame = new UIFrame(window->getRoot());
     frame->setName("Frame1");
     frame->setRect(Rect(10, 10, 620, 460));
@@ -44,22 +50,39 @@ int main()
     ((UIBoxLayout*)frame->getLayout())->setBorder(30);
     window->getRoot()->getLayout()->addWidget(frame);
     
-    UIListBox* list = new UIListBox(frame);
+    
+    UIButton* button = new UIButton(frame);
+    button->setName("Button1");
+    button->setCaption(
+            "&rThe &gQuick &bBrown &rЛис");
+    frame->getLayout()->addWidget(button);
+    
+    button = new UIButton(frame);
+    button->setName("Button2");
+    button->setVisible(false);
+    frame->getLayout()->addWidget(button);
+
+    
+    /*UIListBox* list = new UIListBox(frame);
     list->setName("List1");
     frame->getLayout()->addWidget(list);
     
     for (int i = 0; i < 50; i++) {
         list->append("Item " + String::fromInt(i));
-    }
+    }*/
+    
+    
     
     
     SNCubeNode* cube = new SNCubeNode();
-    cube->scaleX(0.5);
-    cube->scaleY(0.5);
-    cube->scaleZ(0.5);
-    cube->rotateY(70);
-    cube->moveX(0.83);
+    cube->moveZ(-3.9f);
+    cube->moveX(0.9f);
+    cube->rotateX(20.0f);
     
+    UITexture* cubeTexture = new UITexture(
+            window->getRenderer(), "Art/park копия.jpg");
+    
+    cube->setTexture(cubeTexture);
     
     //frame->setVisible(false);
     //list->setVisible(false);
@@ -69,6 +92,7 @@ int main()
         window->startFrame();
         window->processEvents();
         
+        cube->rotateY(1.0);
         cube->draw(window->getContext());
         
         window->drawUI();

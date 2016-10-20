@@ -7,6 +7,7 @@
 #include "../../Strings/string.h"
 #include "../glwindow.h"
 #include "../glcontext.h"
+#include "../UI/uitexture.h"
 
 #include "../../SDL2/SDL.h"
 #include <GLUT/GLUT.h>
@@ -24,6 +25,7 @@ private:
     Vector3df rot = Vector3df(0.0, 0.0, 0.0);
     Vector3df scale = Vector3df(1.0, 1.0, 1.0);
     Map<String, Pointer<ISceneNode>> childNodes;
+    UITexture* texture = NULL;
 protected:
     virtual void render(GLContext* context) = 0;
     virtual void renderChildren(GLContext* context);
@@ -31,6 +33,9 @@ public:
     virtual ~ISceneNode() {}
     
     void draw(GLContext* context);
+    
+    void setTexture(UITexture* texture) { this->texture = texture; }
+    UITexture* getTexture() { return texture; }
     
     void addChild(const String& name, ISceneNode* node)
         { childNodes.insert(makePair(name, Pointer<ISceneNode>(node))); }

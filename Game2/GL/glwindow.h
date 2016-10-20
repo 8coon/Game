@@ -62,6 +62,7 @@ public:
     UIWidget* getRoot() { return root; }
     Point getResolution() { return resolution; }
     GLContext* getContext() { return context; }
+    UISkin* getSkin() { return skin; }
 };
 
 #endif // GLWINDOW_H

@@ -184,9 +184,9 @@ void UISurface::drawLetter(UIFont* font, const String &letter, Rect dst, RGBA co
 {
     Rect src = font->getLetter(letter);
 
-    SDL_SetTextureColorMod(font->getTexture()->getTexture(), color.r, color.g, color.b);
-    SDL_SetTextureAlphaMod(font->getTexture()->getTexture(), color.a);
+    glColor4f(color.r / 255.0, color.g / 255.0, color.b / 255.0, color.a / 255.0);
     drawTexture(font->getTexture(), src, dst);
+    glColor4f(1.0, 1.0, 1.0, 1.0);
 }
 
 

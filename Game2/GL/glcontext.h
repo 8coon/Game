@@ -12,6 +12,7 @@
 #include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
+#include <cmath>
 
 
 using namespace coon;
