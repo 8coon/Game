@@ -7,7 +7,7 @@
 #include "../../Strings/string.h"
 #include "../glwindow.h"
 #include "../glcontext.h"
-#include "../UI/uitexture.h"
+#include "../gltexture.h"
 
 #include "../../SDL2/SDL.h"
 #include <GLUT/GLUT.h>
@@ -17,6 +17,9 @@
 using namespace coon;
 
 
+class SNLightNode;
+
+
 class ISceneNode
 {
 private:
@@ -24,19 +27,26 @@ private:
     Vector3df rot = Vector3df(0.0, 0.0, 0.0);
     Vector3df scale = Vector3df(1.0, 1.0, 1.0);
     Map<String, Pointer<ISceneNode>> childNodes;
-    UITexture* texture = NULL;
+    GLTexture* texture = NULL;
     String name;
+    
+    bool lightEmitter = false;
+    int index = 0;
 protected:
     virtual void render(GLContext* context) {}
     virtual void renderChildren(GLContext* context);
+    void setLightEmitter(const bool val) { lightEmitter = val; }
 public:
     ISceneNode(const String& name) { setName(name); }
     virtual ~ISceneNode() {}
     
     void draw(GLContext* context);
     
-    void setTexture(UITexture* texture) { this->texture = texture; }
-    UITexture* getTexture() { return texture; }
+    void setTexture(GLTexture* texture) { this->texture = texture; }
+    GLTexture* getTexture() { return texture; }
+    
+    int getLightIndex() { return index; }
+    void setLightIndex(int val) { index = val; }
     
     void addChild(const String& name, ISceneNode* node)
         { childNodes.insert(makePair(name, Pointer<ISceneNode>(node)));
@@ -48,6 +58,8 @@ public:
         { return childNodes.find(name) != childNodes.end(); }
     ISceneNode* getChild(const String& name) { return childNodes.at(name).get(); }
     ISceneNode* findNodeByName(const String& name);
+    
+    bool isLightEmitter() { return lightEmitter; }
     
     void setPos(const Vector3df& pos) { this->pos = pos; }
     void setRot(const Vector3df& rot) { this->rot = rot; }

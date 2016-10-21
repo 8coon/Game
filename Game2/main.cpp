@@ -22,11 +22,14 @@
 #include "GL/UI/Widgets/uilistbox.h"
 #include "GL/UI/Widgets/uiscene.h"
 #include "GL/glcontext.h"
+#include "GL/gltexture.h"
 #include "GL/Scene/sncubenode.h"
+#include "GL/Scene/snlightnode.h"
 #include "GL/Scene/scene.h"
 
 
 #include <time.h>
+#include <cmath>
 
 
 
@@ -70,7 +73,7 @@ int main()
     button->setName("Button2");
     button->setVisible(false);
     frame->getLayout()->addWidget(button);
-
+    
     
     /*UIListBox* list = new UIListBox(frame);
     list->setName("List1");
@@ -79,28 +82,43 @@ int main()
     for (int i = 0; i < 50; i++) {
         list->append("Item " + String::fromInt(i));
     }*/
-    
-    
-    SNCubeNode* cube = new SNCubeNode("cube");
-    cube->moveZ(-3.9f);
-    //cube->moveX(0.9f);
-    cube->rotateX(20.0f);
-    
-    UITexture* cubeTexture = new UITexture(
-            window->getRenderer(), "Art/park копия.jpg");
-    
-    cube->setTexture(cubeTexture);
-    scene->getScene()->getRoot()->addChild(cube);
-    
-    //frame->setVisible(false);
+    frame->setVisible(false);
     //list->setVisible(false);
     
+    
+    ISceneNode* holder = new ISceneNode("holder");
+    holder->moveZ(-3.9f);
+    holder->rotateX(20.0f);
+    scene->getScene()->getRoot()->addChild(holder);
+    
+    SNCubeNode* cube = new SNCubeNode("cube");
+    GLTexture* cubeTexture = new GLTexture(
+            window->getRenderer(), "Art/park копия.jpg");
+    cube->setTexture(cubeTexture);
+    holder->addChild(cube);
+    
+    cube = new SNCubeNode("lightCube");
+    cube->setScale(Vector3df(0.2, 0.2, 0.2));
+    holder->addChild(cube);
+    
+    SNLightNode* light = new SNLightNode("light");
+    cube->addChild(light);
+    
+    
+    scene->getScene()->setLighting(true);
+    scene->getScene()->setAmbientColor(RGBA(150, 150, 150, 100));
+    
+    float t = 0;
 
     while (window->isRunning()) {
         window->startFrame();
         window->processEvents();
         
         scene->getScene()->findNode("cube")->rotateY(1.0f);
+        scene->getScene()->findNode("lightCube")->setPos(
+                Vector3df(1.5 * sin(t), light->getYPos(), 1.5 * cos(t)));
+        scene->getScene()->findNode("lightCube")->rotateY(-18.0f);
+        t -= 0.05;
         
         window->drawUI();
         window->endFrame();

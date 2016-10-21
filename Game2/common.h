@@ -6,6 +6,7 @@
 
 #include "SDL2/SDL.h"
 #include <iostream>
+#include <OpenGL/gl.h>
 
 #define RECT2SDL(r, R) r.x = R.x; r.y = R.y; r.w = R.w; r.h = R.h
 
@@ -88,6 +89,9 @@ std::ostream& operator<<(std::ostream& s, const Vector3di& r);
 std::ostream& operator<<(std::ostream& s, const Vector3df& r);
 std::ostream& operator<<(std::ostream& s, const RGBA& r);
 int getTime();
+
+
+void RGBA2GLfloatv(const RGBA& rgba, GLfloat* floats, int len);
 
 
 #endif // COMMON_H

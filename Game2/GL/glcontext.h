@@ -30,6 +30,8 @@ private:
     GLWindow* window;
     int MVMatrixStackSize = 0;
     int PRMatrixStackSize = 0;
+    int lastLightIndex = 0;
+    int maxLightIndex = GL_MAX_LIGHTS;
 public:
     GLContext(GLWindow* window);
     ~GLContext() {}
@@ -53,6 +55,12 @@ public:
     
     int getRenderBuffer()
         { GLint n = 0; glGetIntegerv(GL_FRAMEBUFFER_BINDING, &n); return n; }
+    
+    int getLastLightIndex() { return lastLightIndex; }
+    bool incLastLightIndex()
+            { lastLightIndex++; return lastLightIndex < maxLightIndex; }
+    void decLastLightIndex()
+        { lastLightIndex--; if (lastLightIndex < -1) lastLightIndex = -1; }
 };
 
 

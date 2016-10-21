@@ -34,6 +34,8 @@ public:
     
     RGBA getAmbientColor() { return ambientColor; }
     void setAmbientColor(const RGBA& color) { ambientColor = color; }
+    
+    void setLighting(bool val);
 };
 
 #endif /* scene_hpp */

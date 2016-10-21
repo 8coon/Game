@@ -76,3 +76,19 @@ int getTime()
 {
     return SDL_GetTicks();
 }
+
+
+
+void RGBA2GLfloatv(const RGBA& rgba, GLfloat* floats, int len)
+{
+    GLfloat r = rgba.r / 255.0;
+    GLfloat g = rgba.g / 255.0;
+    GLfloat b = rgba.b / 255.0;
+    GLfloat a = rgba.a / 255.0;
+    
+    if (len > 0) floats[0] = r;
+    if (len > 1) floats[1] = g;
+    if (len > 2) floats[2] = b;
+    if (len > 3) floats[3] = a;
+}
+

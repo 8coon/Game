@@ -24,8 +24,8 @@ private:
 public:
     UITexture(SDL_Texture* texture = NULL);
     UITexture(SDL_Renderer* renderer, const String& fileName);
-    UITexture(SDL_Renderer *renderer, StreamCollection* collection, const String &name);
-    ~UITexture();
+    UITexture(SDL_Renderer* renderer, StreamCollection* collection, const String &name);
+    virtual ~UITexture();
 
     SDL_Texture* getTexture() { return texture; }
     int getFormat() { return format; }

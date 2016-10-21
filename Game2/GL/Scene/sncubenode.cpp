@@ -5,7 +5,7 @@
 void SNCubeNode::render(GLContext* context)
 {
     GLfloat vertices[] = {
-        // Front side
+        // Back side
         -0.5, -0.5,  0.5,
          0.5, -0.5,  0.5,
          0.5,  0.5,  0.5,
@@ -23,7 +23,7 @@ void SNCubeNode::render(GLContext* context)
         -0.5,  0.5, -0.5,
         -0.5,  0.5,  0.5,
         
-        // Back side
+        // Front side
         -0.5, -0.5, -0.5,
          0.5, -0.5, -0.5,
          0.5,  0.5, -0.5,
@@ -43,7 +43,7 @@ void SNCubeNode::render(GLContext* context)
     };
     
     GLfloat texCoords[] = {
-        // Front side
+        // Back side
         0, 1,
         1, 1,
         1, 0,
@@ -61,7 +61,7 @@ void SNCubeNode::render(GLContext* context)
         0, 0,
         1, 0,
         
-        // Back side
+        // Front side
         1, 1,
         0, 1,
         0, 0,
@@ -81,7 +81,7 @@ void SNCubeNode::render(GLContext* context)
     };
     
     GLubyte indices[] = {
-        // Front size
+        // Back size
         0,  1,  2,
         0,  2,  3,
         
@@ -93,7 +93,7 @@ void SNCubeNode::render(GLContext* context)
         8,  9,  10,
         8,  10, 11,
         
-        // Back side
+        // Front side
         12, 13, 14,
         12, 14, 15,
         
@@ -106,15 +106,57 @@ void SNCubeNode::render(GLContext* context)
         20, 22, 23,
     };
     
+    GLfloat normals[] = {
+        // Back side
+         0,  0,  1,
+         0,  0,  1,
+         0,  0,  1,
+         0,  0,  1,
+        
+        // Right side
+         1,  0,  0,
+         1,  0,  0,
+         1,  0,  0,
+         1,  0,  0,
+        
+        // Left side
+        -1,  0,  0,
+        -1,  0,  0,
+        -1,  0,  0,
+        -1,  0,  0,
+        
+        // Front side
+         0,  0, -1,
+         0,  0, -1,
+         0,  0, -1,
+         0,  0, -1,
+        
+        // Bottom side
+         0, -1,  0,
+         0, -1,  0,
+         0, -1,  0,
+         0, -1,  0,
+        
+        // Top side
+         0,  1,  0,
+         0,  1,  0,
+         0,  1,  0,
+         0,  1,  0,
+    };
+    
+
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glNormalPointer(GL_FLOAT, 0, normals);
+    
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
     
-    //glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
     glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_BYTE, indices);
     
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
 }
