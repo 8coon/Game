@@ -31,7 +31,7 @@ ISceneNode* ISceneNode::findNodeByName(const String& name)
 }*/
 
 
-void ISceneNode::draw(GLContext* context) {
+void ISceneNode::draw(GLContext* context, bool alsoCamera) {
     context->pushMatrix(GLM_BOTH, false);
     glPushAttrib(GL_CURRENT_BIT);
     
@@ -49,9 +49,30 @@ void ISceneNode::draw(GLContext* context) {
             setLightIndex(context->getLastLightIndex());
             render(context);
         }
-    } else {
+    } else if (!isCamera() || alsoCamera) {
         if (texture != NULL) texture->Bind();
+        
+        /*GLuint colorBuffer = 0;
+        glGenTextures(1, &colorBuffer);
+        glBindTexture(GL_TEXTURE_2D, colorBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_UNSIGNED_BYTE,
+                     GL_RGB, NULL);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        
+        GLuint frameBuffer = 0;
+        glGenFramebuffers(1, &frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorBuffer, 0);
+        
         render(context);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, colorBuffer);
+        glGenerateMipmap(GL_TEXTURE_2D);*/
+        
+        render(context);
+        
         if (texture != NULL) texture->Unbind();
     }
     

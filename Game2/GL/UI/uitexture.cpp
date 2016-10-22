@@ -16,14 +16,17 @@ UITexture::UITexture(SDL_Renderer* renderer, const String& fileName)
         std::cout << "IMG_Load error: " << IMG_GetError() << std::endl; return;
     }
 
-    texture = SDL_CreateTextureFromSurface(renderer, loaded);
+    SDL_Surface* converted = SDL_ConvertSurfaceFormat(loaded, SDL_PIXELFORMAT_RGBA8888, 0);
+    texture = SDL_CreateTextureFromSurface(renderer, converted);
 
     if (texture == nullptr) {
         std::cout << "SDL_CreateTextureFromSurface error: " << SDL_GetError() << std::endl; return;
     }
 
-    SDL_FreeSurface(loaded);
     SDL_QueryTexture(texture, &format, &access, &width, &height);
+    getRawFromSurface(converted);
+    SDL_FreeSurface(loaded);
+    SDL_FreeSurface(converted);
 }
 
 
@@ -41,20 +44,34 @@ UITexture::UITexture(SDL_Renderer *renderer, StreamCollection *collection, const
         std::cout << "IMG_Load (from StreamCollection) error: " << IMG_GetError() << std::endl; return;
     }
 
-    texture = SDL_CreateTextureFromSurface(renderer, loaded);
+    SDL_Surface* converted = SDL_ConvertSurfaceFormat(loaded, SDL_PIXELFORMAT_RGBA8888, 0);
+    texture = SDL_CreateTextureFromSurface(renderer, converted);
 
     if (texture == nullptr) {
         std::cout << "SDL_CreateTextureFromSurface error (from StreamCollection): " <<
                      SDL_GetError() << std::endl; return;
     }
 
-    SDL_FreeSurface(loaded);
     SDL_QueryTexture(texture, &format, &access, &width, &height);
+    getRawFromSurface(converted);
+    SDL_FreeSurface(loaded);
+    SDL_FreeSurface(converted);
     delete[] buffer;
+}
+
+
+void UITexture::getRawFromSurface(SDL_Surface *surface)
+{
+    rawData = new RGBA32[surface->w * surface->h];
+    
+    for (int i = 0; i < surface->w * surface->h; i++) {
+        rawData[i] = RGBA32(((uint32_t*)(surface->pixels))[i]);
+    }
 }
 
 
 UITexture::~UITexture()
 {
     if (texture != NULL) SDL_DestroyTexture(texture);
+    setRawData(NULL);
 }

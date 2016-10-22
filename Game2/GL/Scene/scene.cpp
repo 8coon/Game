@@ -15,8 +15,19 @@ void Scene::draw(GLContext* context)
     }
     
     //setLighting(true);
-    root->draw(context);
+    
+    //root->draw(context);
     //setLighting(false);
+    
+    activeCamera->drawSceneRoot(context, root.get());
+}
+
+
+Scene::Scene()
+{
+    root = Pointer<ISceneNode>(new ISceneNode("root"));
+    activeCamera = new SNCameraNode("camera");
+    root->addChild(activeCamera);
 }
 
 

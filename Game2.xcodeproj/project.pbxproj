@@ -17,6 +17,8 @@
 		7D1972AF1DB96BE4006ECE51 /* uiscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972AD1DB96BE4006ECE51 /* uiscene.cpp */; };
 		7D1972B21DB975A2006ECE51 /* gltexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972B01DB975A2006ECE51 /* gltexture.cpp */; };
 		7D1972B51DB98CF7006ECE51 /* snlightnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972B31DB98CF7006ECE51 /* snlightnode.cpp */; };
+		7D1972CB1DBB51D8006ECE51 /* sncameranode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972C91DBB51D8006ECE51 /* sncameranode.cpp */; };
+		7D1972CE1DBBC723006ECE51 /* snlandscapenode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972CC1DBBC723006ECE51 /* snlandscapenode.cpp */; };
 		7D4B3EA21DA83CC20088B2D6 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DD51DA83CC20088B2D6 /* common.cpp */; };
 		7D4B3EA31DA83CC20088B2D6 /* glwindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDA1DA83CC20088B2D6 /* glwindow.cpp */; };
 		7D4B3EA41DA83CC20088B2D6 /* uifont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDD1DA83CC20088B2D6 /* uifont.cpp */; };
@@ -74,6 +76,10 @@
 		7D1972B11DB975A2006ECE51 /* gltexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gltexture.h; sourceTree = "<group>"; };
 		7D1972B31DB98CF7006ECE51 /* snlightnode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = snlightnode.cpp; path = GL/Scene/snlightnode.cpp; sourceTree = "<group>"; };
 		7D1972B41DB98CF7006ECE51 /* snlightnode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = snlightnode.h; path = GL/Scene/snlightnode.h; sourceTree = "<group>"; };
+		7D1972C91DBB51D8006ECE51 /* sncameranode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sncameranode.cpp; path = GL/Scene/sncameranode.cpp; sourceTree = "<group>"; };
+		7D1972CA1DBB51D8006ECE51 /* sncameranode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sncameranode.h; path = GL/Scene/sncameranode.h; sourceTree = "<group>"; };
+		7D1972CC1DBBC723006ECE51 /* snlandscapenode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = snlandscapenode.cpp; path = GL/Scene/snlandscapenode.cpp; sourceTree = "<group>"; };
+		7D1972CD1DBBC723006ECE51 /* snlandscapenode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = snlandscapenode.h; path = GL/Scene/snlandscapenode.h; sourceTree = "<group>"; };
 		7D4B3C2F1DA83B5C0088B2D6 /* Game2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Game2; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D4B3DD51DA83CC20088B2D6 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		7D4B3DD61DA83CC20088B2D6 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -223,8 +229,12 @@
 		7D1972A61DB76F47006ECE51 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */,
 				7D1972A41DB76F30006ECE51 /* iscenenode.h */,
+				7D1972CC1DBBC723006ECE51 /* snlandscapenode.cpp */,
+				7D1972CD1DBBC723006ECE51 /* snlandscapenode.h */,
+				7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */,
+				7D1972C91DBB51D8006ECE51 /* sncameranode.cpp */,
+				7D1972CA1DBB51D8006ECE51 /* sncameranode.h */,
 				7D1972A71DB776E1006ECE51 /* sncubenode.cpp */,
 				7D1972A81DB776E1006ECE51 /* sncubenode.h */,
 				7D1972B31DB98CF7006ECE51 /* snlightnode.cpp */,
@@ -557,8 +567,10 @@
 				7D4B3EAD1DA83CC20088B2D6 /* uiscroll.cpp in Sources */,
 				7D4B3EA71DA83CC20088B2D6 /* uiwidgettexture.cpp in Sources */,
 				7D4B3EDE1DA83CC20088B2D6 /* string.cpp in Sources */,
+				7D1972CB1DBB51D8006ECE51 /* sncameranode.cpp in Sources */,
 				7D4B3EA21DA83CC20088B2D6 /* common.cpp in Sources */,
 				7D4B3EDD1DA83CC20088B2D6 /* streams.cpp in Sources */,
+				7D1972CE1DBBC723006ECE51 /* snlandscapenode.cpp in Sources */,
 				7D4B3EAE1DA83CC20088B2D6 /* uiwidget.cpp in Sources */,
 				7D1972AC1DB96121006ECE51 /* scene.cpp in Sources */,
 				7D4B3EA61DA83CC20088B2D6 /* uitexture.cpp in Sources */,

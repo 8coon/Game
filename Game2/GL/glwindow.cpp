@@ -3,7 +3,7 @@
 GLWindow::GLWindow(LuaConfig *config)
 {
     this->config = config;
-    SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
+    //SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 6);
@@ -17,6 +17,8 @@ GLWindow::GLWindow(LuaConfig *config)
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
         SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
         
         unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
         

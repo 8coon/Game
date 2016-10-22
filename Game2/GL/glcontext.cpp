@@ -13,6 +13,8 @@ GLContext::GLContext(GLWindow* window)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_MULTISAMPLE);
+    glEnable(GL_AUTO_NORMAL);
+    glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

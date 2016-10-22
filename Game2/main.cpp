@@ -25,7 +25,9 @@
 #include "GL/gltexture.h"
 #include "GL/Scene/sncubenode.h"
 #include "GL/Scene/snlightnode.h"
+#include "GL/Scene/sncameranode.h"
 #include "GL/Scene/scene.h"
+#include "GL/Scene/snlandscapenode.h"
 
 
 #include <time.h>
@@ -86,39 +88,49 @@ int main()
     //list->setVisible(false);
     
     
+    GLTexture* cubeTexture = new GLTexture(window->getRenderer(),
+                                           "Art/park копия.jpg");
+    GLTexture* grassTexture = new GLTexture(window->getRenderer(),
+                                            "Art/grass.jpg");
+    grassTexture->setMipmapsEnabled(true);
+    
+    GLTexture* heightTexture = new GLTexture(window->getRenderer(),
+                                             "Art/heightmap_min.png");
+    
+    
     ISceneNode* holder = new ISceneNode("holder");
     holder->moveZ(-3.9f);
-    holder->rotateX(20.0f);
+    holder->moveY(-1.0f);
+    holder->rotateX(10.0f);
     scene->getScene()->getRoot()->addChild(holder);
     
-    SNCubeNode* cube = new SNCubeNode("cube");
-    GLTexture* cubeTexture = new GLTexture(
-            window->getRenderer(), "Art/park копия.jpg");
-    cube->setTexture(cubeTexture);
-    holder->addChild(cube);
     
-    cube = new SNCubeNode("lightCube");
-    cube->setScale(Vector3df(0.2, 0.2, 0.2));
-    holder->addChild(cube);
-    
-    SNLightNode* light = new SNLightNode("light");
-    cube->addChild(light);
+    //MSPlane* plane = new MSPlane(128, 128);
+    MSTexHeightmap* heightmap = new MSTexHeightmap(heightTexture);
+    heightmap->setTexScale(0.05f);
+    SNLandscapeNode* landscape = new SNLandscapeNode("land", heightmap);
+    landscape->setTexture(grassTexture);
+    landscape->setScale(Vector3df(0.05f, 2.0f, 0.05f));
+    holder->addChild(landscape);
     
     
-    scene->getScene()->setLighting(true);
-    scene->getScene()->setAmbientColor(RGBA(150, 150, 150, 100));
+    //SNLightNode* light = new SNLightNode("light");
+    //cube->addChild(light);
     
-    float t = 0;
+    
+    //float t = 0;
 
     while (window->isRunning()) {
         window->startFrame();
         window->processEvents();
         
-        scene->getScene()->findNode("cube")->rotateY(1.0f);
-        scene->getScene()->findNode("lightCube")->setPos(
+        //scene->getScene()->findNode("cube")->rotateY(1.0f);
+        /*scene->getScene()->findNode("lightCube")->setPos(
                 Vector3df(1.5 * sin(t), light->getYPos(), 1.5 * cos(t)));
         scene->getScene()->findNode("lightCube")->rotateY(-18.0f);
-        t -= 0.05;
+        t -= 0.05;*/
+        scene->getScene()->findNode("land")->rotateY(-0.05f);
+        
         
         window->drawUI();
         window->endFrame();

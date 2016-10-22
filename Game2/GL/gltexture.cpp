@@ -17,13 +17,17 @@ void GLTexture::Bind()
         glEnable(GL_COLOR_MATERIAL);
         glColor3f(emission.r / 255.0, emission.g / 255.0, emission.b / 255.0);
     }
-    
+
     SDL_GL_BindTexture(getTexture(), NULL, NULL);
 }
 
 
 void GLTexture::Unbind()
 {
+    if (hasMipmaps) {
+        generateMipmaps();
+    }
+    
     if (glIsEnabled(GL_LIGHTING)) {
         glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
         glEnable(GL_COLOR_MATERIAL);
@@ -40,5 +44,19 @@ void GLTexture::Unbind()
     
     SDL_GL_UnbindTexture(getTexture());
 }
+
+
+void GLTexture::generateMipmaps()
+{
+    SDL_GL_BindTexture(this->getTexture(), NULL, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    SDL_GL_UnbindTexture(this->getTexture());
+}
+
+
 
 

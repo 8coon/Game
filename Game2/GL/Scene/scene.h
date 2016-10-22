@@ -9,6 +9,7 @@
 #include "../glwindow.h"
 #include "../glcontext.h"
 #include "iscenenode.h"
+#include "sncameranode.h"
 
 #include "../../SDL2/SDL.h"
 #include <GLUT/GLUT.h>
@@ -22,9 +23,10 @@ class Scene
 {
 private:
     Pointer<ISceneNode> root;
+    SNCameraNode* activeCamera;
     RGBA ambientColor = RGBA(255, 255, 255, 0);
 public:
-    Scene() { root = Pointer<ISceneNode>(new ISceneNode("root")); }
+    Scene();
     virtual ~Scene() {}
     
     virtual void draw(GLContext* context);
@@ -36,6 +38,9 @@ public:
     void setAmbientColor(const RGBA& color) { ambientColor = color; }
     
     void setLighting(bool val);
+    
+    void setActiveCamera(SNCameraNode* camera) { activeCamera = camera; }
+    SNCameraNode* getActiveCamera() { return activeCamera; }
 };
 
 #endif /* scene_hpp */

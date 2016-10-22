@@ -34,6 +34,8 @@ public:
     bool isEnabled() { return enabled; }
     void setEnabled(bool enabled) { this->enabled = enabled; }
     
+    bool isLightEmitter() { return true; }
+    
     RGBA getDiffuse() { return diffuse; }
     RGBA getSpecular() { return specular; }
     void setDiffuse(const RGBA& color) { diffuse = color; }

@@ -23,4 +23,7 @@ void SNLightNode::render(GLContext *context)
     
     GLfloat pos[] = { 0.0, 0.0, 0.0, 0.0 };
     glLightfv(light, GL_POSITION, pos);
+    
+    glLightf(light, GL_CONSTANT_ATTENUATION, 0);
+    glLightf(light, GL_LINEAR_ATTENUATION, 0);
 }

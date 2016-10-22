@@ -144,6 +144,50 @@ void SNCubeNode::render(GLContext* context)
          0,  1,  0,
     };
     
+    /*for (int i = 0; i < 3*24; i++) {
+        normals[i] *= -1;
+    }*/
+    
+    GLfloat tangents[6*6];
+    GLfloat bitangents[6*6];
+    int j = 0;
+    
+    for (int i = 0; i < 6*6; i += 9) {
+        Vector3df v0(vertices[i+0], vertices[i+1], vertices[i+2]);
+        Vector3df v1(vertices[i+3], vertices[i+4], vertices[i+5]);
+        Vector3df v2(vertices[i+6], vertices[i+7], vertices[i+8]);
+        
+        Vector2df uv0(texCoords[j+0], texCoords[j+1]);
+        Vector2df uv1(texCoords[j+2], texCoords[j+3]);
+        Vector2df uv2(texCoords[j+4], texCoords[j+5]);
+        j += 6;
+        
+        Vector3df deltaPos1 = v1.dup().sub(v0);
+        Vector3df deltaPos2 = v2.dup().sub(v0);
+        Vector2df deltaUV1 = uv1.dup().sub(uv0);
+        Vector2df deltaUV2 = uv2.dup().sub(uv0);
+        
+        float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+        
+        Vector3df tangent =
+            deltaPos1.dup().mul(deltaUV2.y).sub(deltaPos2.dup().mul(deltaUV1.y));
+        tangent.mul(r);
+        
+        Vector3df bitangent =
+        deltaPos2.dup().mul(deltaUV1.x).sub(deltaPos1.dup().mul(deltaUV2.x));
+        bitangent.mul(r);
+        
+        for (int k = 0; k < 9; k += 3) {
+            tangents[i+k+0] = tangent.x;
+            tangents[i+k+1] = tangent.y;
+            tangents[i+k+2] = tangent.z;
+            
+            bitangents[i+k+0] = bitangent.x;
+            bitangents[i+k+1] = bitangent.y;
+            bitangents[i+k+2] = bitangent.z;
+        }
+    }
+    
 
     glEnableClientState(GL_NORMAL_ARRAY);
     glNormalPointer(GL_FLOAT, 0, normals);

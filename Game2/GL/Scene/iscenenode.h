@@ -30,17 +30,15 @@ private:
     GLTexture* texture = NULL;
     String name;
     
-    bool lightEmitter = false;
     int index = 0;
 protected:
     virtual void render(GLContext* context) {}
     virtual void renderChildren(GLContext* context);
-    void setLightEmitter(const bool val) { lightEmitter = val; }
 public:
     ISceneNode(const String& name) { setName(name); }
     virtual ~ISceneNode() {}
     
-    void draw(GLContext* context);
+    void draw(GLContext* context, bool alsoCamera = false);
     
     void setTexture(GLTexture* texture) { this->texture = texture; }
     GLTexture* getTexture() { return texture; }
@@ -59,7 +57,8 @@ public:
     ISceneNode* getChild(const String& name) { return childNodes.at(name).get(); }
     ISceneNode* findNodeByName(const String& name);
     
-    bool isLightEmitter() { return lightEmitter; }
+    virtual bool isLightEmitter() { return false; }
+    virtual bool isCamera() { return false; }
     
     void setPos(const Vector3df& pos) { this->pos = pos; }
     void setRot(const Vector3df& rot) { this->rot = rot; }

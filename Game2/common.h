@@ -21,6 +21,23 @@ struct RGBA
 };
 
 
+struct RGBA32_channels {
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+    unsigned char a;
+};
+
+
+union RGBA32
+{
+    unsigned int value;
+    RGBA32_channels channels;
+    
+    RGBA32(unsigned int value = 0) { this->value = value; }
+};
+
+
 struct Point
 {
     int x;
@@ -58,6 +75,14 @@ struct Vector2df
     float y;
     Vector2df(float x = 0, float y = 0) { this->x = x; this->y = y; }
     Vector2df(const Vector2df& vec): Vector2df(vec.x, vec.y) {}
+    
+    Vector2df& add(const Vector2df& vec)
+    { x += vec.x; y += vec.y; return *this; }
+    Vector2df& sub(const Vector2df& vec)
+    { x -= vec.x; y -= vec.y; return *this; }
+    Vector2df& mul(const float num)
+    { x *= num; y *= num; return *this; }
+    Vector2df dup() { return Vector2df(*this); }
 };
 
 
@@ -78,6 +103,14 @@ struct Vector3df
     float z;
     Vector3df(float x = 0, float y = 0, float z = 0) { this->x = x; this->y = y; this->z = z; }
     Vector3df(const Vector3df& vec): Vector3df(vec.x, vec.y, vec.z) {}
+    
+    Vector3df& add(const Vector3df& vec)
+        { x += vec.x; y += vec.y; z += vec.z; return *this; }
+    Vector3df& sub(const Vector3df& vec)
+        { x -= vec.x; y -= vec.y; z -= vec.z; return *this; }
+    Vector3df& mul(const float num)
+        { x *= num; y *= num; z *= num; return *this; }
+    Vector3df dup() { return Vector3df(*this); }
 };
 
 

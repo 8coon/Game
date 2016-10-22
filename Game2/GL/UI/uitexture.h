@@ -21,6 +21,9 @@ private:
     int height;
     int access;
     unsigned int format;
+    RGBA32* rawData = NULL;
+protected:
+    void getRawFromSurface(SDL_Surface* surface);
 public:
     UITexture(SDL_Texture* texture = NULL);
     UITexture(SDL_Renderer* renderer, const String& fileName);
@@ -33,6 +36,9 @@ public:
     int getHeight() { return height; }
     int getWidth() { return width; }
     void setTextureUnsafe(SDL_Texture* texture) { this->texture = texture; }
+    RGBA32* getRawData() { return rawData; }
+    void setRawData(RGBA32* data)
+            { if (rawData != NULL) delete[] rawData; rawData = data; }
 };
 
 #endif // UITEXTURE_H
