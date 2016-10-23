@@ -33,7 +33,7 @@ private:
     int maxLightIndex = GL_MAX_LIGHTS;
 public:
     GLContext(GLWindow* window);
-    ~GLContext() {}
+    ~GLContext() { SDL_GL_DeleteContext(context); }
     
     void drawTexture(UITexture *texture, Rect src, Rect dst);
     void drawTexture(GLuint texture, Rect src, Rect dst, float w, float h);

@@ -25,7 +25,7 @@ void GLTexture::Bind()
 void GLTexture::Unbind()
 {
     if (hasMipmaps) {
-        generateMipmaps();
+        //generateMipmaps();
     }
     
     if (glIsEnabled(GL_LIGHTING)) {

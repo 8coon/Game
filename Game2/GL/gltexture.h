@@ -20,12 +20,13 @@ using namespace coon;
 class GLTexture: public UITexture
 {
 private:
+    Vector2df coord1;
+    Vector2df coord2;
     RGBA diffuse = RGBA(255, 255, 255, 255);
     RGBA specular = RGBA(255, 255, 255, 255);
     RGBA emission = RGBA(0, 0, 0, 0);
     bool hasMipmaps = false;
-protected:
-    void generateMipmaps();
+    bool useCoord = false;
 public:
     GLTexture(SDL_Texture* texture = NULL): UITexture(texture) {}
     GLTexture(SDL_Renderer* renderer, const String& fileName)
@@ -34,8 +35,12 @@ public:
               const String &name): UITexture(renderer, collection, name) {}
     virtual ~GLTexture() {};
     
+    void generateMipmaps();
+    
     void setMipmapsEnabled(bool val) { hasMipmaps = val; }
     bool areMipmapsEnabled() { return hasMipmaps; }
+    /*void setUseCustomCoord(bool val) { useCoord = val; }
+    bool usesCustomCoord() { return useCoord; }*/
     
     void setDiffuse(const RGBA& color) { diffuse = color; }
     void setSpecular(const RGBA& color) { specular = color; }

@@ -34,18 +34,22 @@ GLWindow::GLWindow(LuaConfig *config)
         if (window == nullptr) {
             std::cout << "SDL_CreateWindow error: " << SDL_GetError() << std::endl; return;
         }
+        
+        SDL_RaiseWindow(window);
 
         flags = SDL_RENDERER_ACCELERATED;
         if (config->getVSync()) flags = flags | SDL_RENDERER_PRESENTVSYNC;
         renderer = SDL_CreateRenderer(window, -1, flags);
 
         if (renderer == nullptr) {
-            std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl; return;
+            std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
+            exit(-1);
         }
 
         flags = IMG_INIT_PNG;
         if (!(IMG_Init(flags) & flags)) {
-            std::cout << "IMG_Init error: " << IMG_GetError() << std::endl; return;
+            std::cout << "IMG_Init error: " << IMG_GetError() << std::endl;
+            exit(-1);
         }
         
         

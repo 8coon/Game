@@ -7,6 +7,11 @@ GLContext::GLContext(GLWindow* window)
     this->window = window;
     this->context = SDL_GL_CreateContext(window->getWindow());
     
+    if (context == NULL) {
+        std::cout << "Failed to create OpenGL context!" << std::endl;
+        exit(-1);
+    }
+    
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);
     glDepthFunc(GL_LESS);

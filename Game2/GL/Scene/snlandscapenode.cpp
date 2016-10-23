@@ -21,6 +21,31 @@ SNLandscapeNode::SNLandscapeNode(const String& name, MSLandscape* landscape)
 {
     this->landscape = Pointer<MSLandscape>(landscape);
     
+    setColorMap(NULL);
+    setTextureR(NULL);
+    setTextureG(NULL);
+    setTextureB(NULL);
+    
+    shaderProgram = new GLShaderProgram();
+    
+    TextFileReader reader("Shaders/landscape.frag");
+    GLShader* shader = new GLShader("landscape.frag", &reader);
+    shaderProgram->addShader(shader);
+    
+    reader = TextFileReader("Shaders/landscape.vert");
+    shader = new GLShader("landscape.vert", &reader);
+    shaderProgram->addShader(shader);
+    
+    float scale = 1.0 / landscape->getSizeX();
+    shaderProgram->setUniform("tex_map", GLShaderUniform(0));
+    shaderProgram->setUniform("tex_1", GLShaderUniform(1));
+    shaderProgram->setUniform("tex_2", GLShaderUniform(2));
+    shaderProgram->setUniform("tex_3", GLShaderUniform(3));
+    shaderProgram->setUniform("scaling",
+        GLShaderUniform(landscape->getTexScale(), true));
+    shaderProgram->link();
+    
+    
     int j = 0;
     int x = -landscape->getSizeX() / 2; int canX = x;
     int z = -landscape->getSizeY() / 2; int canZ = z;
@@ -57,20 +82,19 @@ SNLandscapeNode::SNLandscapeNode(const String& name, MSLandscape* landscape)
             indices.push_back(i + 1 - 3);
             indices.push_back(i + 2 - 3);
             indices.push_back(i + 3 - 3);
-                
-            /*texCoords.push_back(Vector2df(1.0f, 1.0f));
-            texCoords.push_back(Vector2df(0.0f, 1.0f));
-            texCoords.push_back(Vector2df(1.0f, 0.0f));
-            texCoords.push_back(Vector2df(0.0f, 0.0f));*/
             
-            float scale = landscape->getTexScale();
-            texCoords.push_back(Vector2df(texX + scale, texY + scale));
-            texCoords.push_back(Vector2df(texX,         texY + scale));
-            texCoords.push_back(Vector2df(texX + scale, texY        ));
-            texCoords.push_back(Vector2df(texX,         texY        ));
+            /*texCoords.push_back(Vector2df(1 - texX + scale, texY + scale));
+            texCoords.push_back(Vector2df(1 - texX,         texY + scale));
+            texCoords.push_back(Vector2df(1 - texX + scale, texY        ));
+            texCoords.push_back(Vector2df(1 - texX,         texY        ));*/
+            
+            texCoords.push_back(Vector2df(1 - texX + scale, texY ));
+            texCoords.push_back(Vector2df(1 - texX,         texY ));
+            texCoords.push_back(Vector2df(1 - texX + scale, texY + scale));
+            texCoords.push_back(Vector2df(1 - texX,         texY + scale));
             
             texX += scale;
-            if (texX > 1.0f) {
+            if (texX >= (1.0f - (scale * 0.5f))) {
                 texX = 0.0f;
                 texY += scale;
             }
@@ -121,6 +145,7 @@ SNLandscapeNode::~SNLandscapeNode()
     if (this->bakedIndices != NULL) delete[] bakedIndices;
     if (this->bakedVertices != NULL) delete[] bakedVertices;
     if (this->bakedTexCoords != NULL) delete[] bakedTexCoords;
+    delete shaderProgram;
 }
 
 
@@ -135,7 +160,9 @@ void SNLandscapeNode::render(GLContext *context)
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glTexCoordPointer(2, GL_FLOAT, 0, bakedTexCoords);
     
+    shaderProgram->beginUse();
     glDrawElements(GL_TRIANGLES, lenIndices, GL_UNSIGNED_INT, bakedIndices);
+    shaderProgram->endUse();
     
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

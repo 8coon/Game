@@ -28,6 +28,7 @@
 #include "GL/Scene/sncameranode.h"
 #include "GL/Scene/scene.h"
 #include "GL/Scene/snlandscapenode.h"
+#include "GL/glshader.h"
 
 
 #include <time.h>
@@ -68,7 +69,6 @@ int main()
     button->setName("Button1");
     button->setCaption(
             "&rThe &gQuick &bBrown &rЛис");
-    button->setVisible(false);
     frame->getLayout()->addWidget(button);
     
     button = new UIButton(frame);
@@ -84,39 +84,54 @@ int main()
     for (int i = 0; i < 50; i++) {
         list->append("Item " + String::fromInt(i));
     }*/
-    frame->setVisible(false);
+    //frame->setVisible(false);
     //list->setVisible(false);
     
     
-    GLTexture* cubeTexture = new GLTexture(window->getRenderer(),
-                                           "Art/park копия.jpg");
-    GLTexture* grassTexture = new GLTexture(window->getRenderer(),
-                                            "Art/grass.jpg");
-    grassTexture->setMipmapsEnabled(true);
+    //GLTexture* cubeTexture = new GLTexture(window->getRenderer(),
+    //                                       "Art/park копия.jpg");
     
+    GLTexture* grassTexture = new GLTexture(window->getRenderer(), "Art/grass.jpg");
+    grassTexture->generateMipmaps();
+    
+    GLTexture* sandTexture = new GLTexture(window->getRenderer(), "Art/sand.jpg");
+    sandTexture->generateMipmaps();
+    
+    GLTexture* rockTexture = new GLTexture(window->getRenderer(), "Art/rock.jpg");
+    rockTexture->generateMipmaps();
+    
+    GLTexture* colorTexture = new GLTexture(window->getRenderer(),
+                                             "Art/texmap.png");
     GLTexture* heightTexture = new GLTexture(window->getRenderer(),
                                              "Art/heightmap_min.png");
     
     
     ISceneNode* holder = new ISceneNode("holder");
-    holder->moveZ(-3.9f);
-    holder->moveY(-1.0f);
+    holder->moveZ(-20.0f);
+    holder->moveY(-50.0f);
+    //holder->moveY(-0.5f);
     holder->rotateX(10.0f);
+    //holder->setScale(Vector3df(0.01f, 1.0f, 0.01f));
     scene->getScene()->getRoot()->addChild(holder);
     
     
     //MSPlane* plane = new MSPlane(128, 128);
     MSTexHeightmap* heightmap = new MSTexHeightmap(heightTexture);
-    heightmap->setTexScale(0.05f);
+    heightmap->setTexScale(100.0f);
     SNLandscapeNode* landscape = new SNLandscapeNode("land", heightmap);
-    landscape->setTexture(grassTexture);
-    landscape->setScale(Vector3df(0.05f, 2.0f, 0.05f));
+    //landscape->setScale(Vector3df(0.05f/5, 0.5f / 0.5f, 0.05f/5));
+    landscape->setScale(Vector3df(1.0f, 50.0f, 1.0f));
+    
+    landscape->setColorMap(colorTexture);
+    landscape->setTextureG(grassTexture);
+    landscape->setTextureB(sandTexture);
+    landscape->setTextureR(rockTexture);
+    
     holder->addChild(landscape);
     
     
     //SNLightNode* light = new SNLightNode("light");
     //cube->addChild(light);
-    
     
     //float t = 0;
 

@@ -27,7 +27,7 @@ private:
     Vector3df rot = Vector3df(0.0, 0.0, 0.0);
     Vector3df scale = Vector3df(1.0, 1.0, 1.0);
     Map<String, Pointer<ISceneNode>> childNodes;
-    GLTexture* texture = NULL;
+    Vector<GLTexture*> textures;
     String name;
     
     int index = 0;
@@ -35,13 +35,17 @@ protected:
     virtual void render(GLContext* context) {}
     virtual void renderChildren(GLContext* context);
 public:
-    ISceneNode(const String& name) { setName(name); }
+    ISceneNode(const String& name) { setName(name); setTexture(NULL); }
     virtual ~ISceneNode() {}
     
     void draw(GLContext* context, bool alsoCamera = false);
     
-    void setTexture(GLTexture* texture) { this->texture = texture; }
-    GLTexture* getTexture() { return texture; }
+    void setTexture(GLTexture* texture)
+        { textures.clear(); textures.push_back(texture); }
+    GLTexture* getTexture(int index = 0) { return textures[index]; }
+    void setTexture(int index, GLTexture* texture)
+        { if (textures.size() <= index) textures.resize(index + 1, NULL);
+            textures[index] = texture; }
     
     int getLightIndex() { return index; }
     void setLightIndex(int val) { index = val; }

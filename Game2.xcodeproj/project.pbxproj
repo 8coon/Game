@@ -230,9 +230,9 @@
 			isa = PBXGroup;
 			children = (
 				7D1972A41DB76F30006ECE51 /* iscenenode.h */,
+				7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */,
 				7D1972CC1DBBC723006ECE51 /* snlandscapenode.cpp */,
 				7D1972CD1DBBC723006ECE51 /* snlandscapenode.h */,
-				7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */,
 				7D1972C91DBB51D8006ECE51 /* sncameranode.cpp */,
 				7D1972CA1DBB51D8006ECE51 /* sncameranode.h */,
 				7D1972A71DB776E1006ECE51 /* sncubenode.cpp */,

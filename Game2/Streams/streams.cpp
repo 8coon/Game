@@ -60,7 +60,7 @@ void TextWriter::writeLine(const String &str)
 
 TextFileReader::TextFileReader(const String &fileName)
 {
-    std::cout << fileName << std::endl;
+    // std::cout << fileName << std::endl;
     fs.open(fileName.toStdString());
     if (!(fs.is_open())) this->err = true;
 }

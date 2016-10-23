@@ -19,7 +19,9 @@ void Scene::draw(GLContext* context)
     //root->draw(context);
     //setLighting(false);
     
+    glEnable(GL_DEPTH_TEST);
     activeCamera->drawSceneRoot(context, root.get());
+    glDisable(GL_DEPTH_TEST);
 }
 
 

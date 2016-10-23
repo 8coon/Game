@@ -8,6 +8,7 @@
 #include "../glwindow.h"
 #include "../glcontext.h"
 #include "iscenenode.h"
+#include "../glshader.h"
 
 #include "../../SDL2/SDL.h"
 #include <OpenGL/gl.h>
@@ -73,6 +74,8 @@ private:
     GLfloat* bakedTexCoords = NULL;
     GLuint* bakedIndices = NULL;
     
+    GLShaderProgram* shaderProgram;
+    
     int lenVertices = 0;
     int lenIndices = 0;
 protected:
@@ -81,6 +84,15 @@ public:
     SNLandscapeNode(const String& name, MSLandscape* landscape);
     virtual ~SNLandscapeNode();
     MSLandscape* getLandscape() { return landscape.get(); }
+    
+    void setColorMap(GLTexture* texture) { setTexture(0, texture); }
+    void setTextureR(GLTexture* texture) { setTexture(1, texture); }
+    void setTextureG(GLTexture* texture) { setTexture(2, texture); }
+    void setTextureB(GLTexture* texture) { setTexture(3, texture); }
+    GLTexture* getColorMap() { return getTexture(0); }
+    GLTexture* getTextureR() { return getTexture(1); }
+    GLTexture* getTextureG() { return getTexture(2); }
+    GLTexture* getTextureB() { return getTexture(3); }
 };
 
 
