@@ -10,8 +10,8 @@
 #include "iscenenode.h"
 
 #include "../../SDL2/SDL.h"
-#include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 
 
 using namespace coon;

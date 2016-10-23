@@ -8,7 +8,6 @@
 #include "../../glwindow.h"
 
 #include <memory>
-#include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 

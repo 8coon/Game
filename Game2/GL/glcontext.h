@@ -9,7 +9,6 @@
 #include "glwindow.h"
 
 #include "../SDL2/SDL.h"
-#include <GLUT/GLUT.h>
 #include <OpenGL/gl.h>
 #include <cmath>
 
