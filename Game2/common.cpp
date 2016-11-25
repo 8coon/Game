@@ -92,3 +92,4 @@ void RGBA2GLfloatv(const RGBA& rgba, GLfloat* floats, int len)
     if (len > 3) floats[3] = a;
 }
 
+

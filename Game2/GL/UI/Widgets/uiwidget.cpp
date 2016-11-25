@@ -32,10 +32,18 @@ UIRendererSurface::UIRendererSurface(UISurface *parent, Rect rect): UISurface(pa
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
     
     glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, rect.w, rect.h, 0,
-                 GL_BGRA, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, rect.w, rect.h, 0,
+    //             GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+    
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    
+    GLubyte pixels[256*512*4];
+    for (int i = 0; i < 256*512*4; i++) pixels[i] = rand();
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, 256, 512, 0,
+                              GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
     
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            GL_TEXTURE_2D, texture, 0);
@@ -74,9 +82,14 @@ void UIRendererSurface::begin()
     GLint pb;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &pb); prevFrameBuffer = pb;
     
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
+    //glActiveTexture(GL_TEXTURE0);
+    //glBindTexture(GL_TEXTURE_2D, texture);
+    
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glViewport(0, 0, getRect().w, getRect().h);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -98,16 +111,15 @@ void UIRendererSurface::end()
     //SDL_SetRenderTarget(getRenderer(), prevTexture);
     glBindFramebuffer(GL_FRAMEBUFFER, prevFrameBuffer);
     setOffset(Point(0, 0));
-
-    /*float w = getRect().w;
-    float h = getRect().h;
-    Rect src = Rect(0, 0, getRect().w, getRect().h);
-    Rect dst = Rect(getRect().x, getRect().y, getRect().w, getRect().h);*/
+    
+    glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
     
     //getWindow()->getContext()->drawTexture(texture, src, dst, w, h);
     
     //UITexture* texObj = new UITexture(this->texture);
-    drawTexture(NULL, -getRect().x, -getRect().y, texture);
+    
+    drawTexture(NULL, -getRect().x, -getRect().y, /*texture-3*/(GLuint)1);
+    
     //texObj->setTextureUnsafe(NULL);
     //delete texObj;
 }

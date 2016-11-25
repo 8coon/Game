@@ -22,7 +22,7 @@ class UIFont_setLetter: public LuaFunction
 private:
     UIFont* font;
 public:
-    UIFont_setLetter(UIFont* font): LuaFunction() { this->font = font; }
+    UIFont_setLetter(UIFont* font, LuaWrapper* w): LuaFunction(w) { this->font = font; }
     String getSignature() { return "string letter, number x, number y, number width, number height"; }
     void execute();
 };

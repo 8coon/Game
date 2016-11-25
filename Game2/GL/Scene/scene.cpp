@@ -28,7 +28,7 @@ void Scene::draw(GLContext* context)
 Scene::Scene()
 {
     root = Pointer<ISceneNode>(new ISceneNode("root"));
-    activeCamera = new SNCameraNode("camera");
+    activeCamera = new SNCameraNode("defaultCamera");
     root->addChild(activeCamera);
 }
 

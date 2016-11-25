@@ -31,6 +31,7 @@ private:
     String name;
     
     int index = 0;
+    ISceneNode* parent = NULL;
 protected:
     virtual void render(GLContext* context) {}
     virtual void renderChildren(GLContext* context);
@@ -38,6 +39,8 @@ public:
     ISceneNode(const String& name) { setName(name); setTexture(NULL); }
     virtual ~ISceneNode() {}
     
+    void pushTransformations(GLContext* context, float mult = 1.0f);
+    void popTransformations(GLContext* context);
     void draw(GLContext* context, bool alsoCamera = false);
     
     void setTexture(GLTexture* texture)
@@ -50,9 +53,12 @@ public:
     int getLightIndex() { return index; }
     void setLightIndex(int val) { index = val; }
     
+    ISceneNode* getParent() { return parent; }
+    void setParent(ISceneNode* node) { parent = node; }
+    
     void addChild(const String& name, ISceneNode* node)
         { childNodes.insert(makePair(name, Pointer<ISceneNode>(node)));
-            node->setName(name);}
+            node->setName(name); node->setParent(this); }
     void addChild(ISceneNode* node) { addChild(node->getName(), node); }
     void removeChild(const String& name) { childNodes.erase(name); }
     void removeChildren() { childNodes.clear(); }

@@ -81,6 +81,7 @@ private:
     GLuint prevFrameBuffer;
     GLuint texture;
     GLuint renderBuffer;
+    GLint viewport[4];
 public:
     UIRendererSurface(UISurface* parent, Rect rect);
     virtual ~UIRendererSurface();

@@ -19,6 +19,7 @@
 		7D1972CB1DBB51D8006ECE51 /* sncameranode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972C91DBB51D8006ECE51 /* sncameranode.cpp */; };
 		7D1972CE1DBBC723006ECE51 /* snlandscapenode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972CC1DBBC723006ECE51 /* snlandscapenode.cpp */; };
 		7D1972D11DBCF41C006ECE51 /* glshader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972CF1DBCF41C006ECE51 /* glshader.cpp */; };
+		7D2A3A8C1DC4F7C8001949A2 /* uiactionbinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D2A3A8A1DC4F7C8001949A2 /* uiactionbinder.cpp */; };
 		7D4B3EA21DA83CC20088B2D6 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DD51DA83CC20088B2D6 /* common.cpp */; };
 		7D4B3EA31DA83CC20088B2D6 /* glwindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDA1DA83CC20088B2D6 /* glwindow.cpp */; };
 		7D4B3EA41DA83CC20088B2D6 /* uifont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D4B3DDD1DA83CC20088B2D6 /* uifont.cpp */; };
@@ -81,6 +82,9 @@
 		7D1972CD1DBBC723006ECE51 /* snlandscapenode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = snlandscapenode.h; path = GL/Scene/snlandscapenode.h; sourceTree = "<group>"; };
 		7D1972CF1DBCF41C006ECE51 /* glshader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glshader.cpp; sourceTree = "<group>"; };
 		7D1972D01DBCF41C006ECE51 /* glshader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glshader.h; sourceTree = "<group>"; };
+		7D1BEE6B1DE87D8100F60653 /* exceptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exceptions.h; sourceTree = "<group>"; };
+		7D2A3A8A1DC4F7C8001949A2 /* uiactionbinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uiactionbinder.cpp; sourceTree = "<group>"; };
+		7D2A3A8B1DC4F7C8001949A2 /* uiactionbinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uiactionbinder.h; sourceTree = "<group>"; };
 		7D4B3C2F1DA83B5C0088B2D6 /* Game2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Game2; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D4B3DD51DA83CC20088B2D6 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		7D4B3DD61DA83CC20088B2D6 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				7D4B3DD81DA83CC20088B2D6 /* containers.h */,
+				7D1BEE6B1DE87D8100F60653 /* exceptions.h */,
 			);
 			path = Containers;
 			sourceTree = "<group>";
@@ -325,6 +330,8 @@
 		7D4B3DE51DA83CC20088B2D6 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				7D2A3A8A1DC4F7C8001949A2 /* uiactionbinder.cpp */,
+				7D2A3A8B1DC4F7C8001949A2 /* uiactionbinder.h */,
 				7D4B3DE61DA83CC20088B2D6 /* uiboxlayout.cpp */,
 				7D4B3DE71DA83CC20088B2D6 /* uiboxlayout.h */,
 				7D4B3DE81DA83CC20088B2D6 /* uibutton.cpp */,
@@ -521,7 +528,7 @@
 		7D4B3C271DA83B5C0088B2D6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = 8coon;
 				TargetAttributes = {
 					7D4B3C2E1DA83B5C0088B2D6 = {
@@ -575,6 +582,7 @@
 				7D1972CE1DBBC723006ECE51 /* snlandscapenode.cpp in Sources */,
 				7D4B3EAE1DA83CC20088B2D6 /* uiwidget.cpp in Sources */,
 				7D1972AC1DB96121006ECE51 /* scene.cpp in Sources */,
+				7D2A3A8C1DC4F7C8001949A2 /* uiactionbinder.cpp in Sources */,
 				7D4B3EA61DA83CC20088B2D6 /* uitexture.cpp in Sources */,
 				7D4B3EA91DA83CC20088B2D6 /* uibutton.cpp in Sources */,
 				7D4B3EDC1DA83CC20088B2D6 /* streamcollection.cpp in Sources */,
@@ -605,6 +613,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -653,6 +662,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

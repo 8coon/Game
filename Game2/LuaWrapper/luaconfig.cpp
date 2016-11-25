@@ -28,11 +28,22 @@ void LuaConfig::save()
             case LW_NUMBER:
                 builder.append(String::fromInt((int) *(pair.second->getNumber())));
                 break;
+                
+            case LW_INTEGER:
+                builder.append(String::fromInt((int) *(pair.second->getInteger())));
+                break;
+                
+            case LW_BOOLEAN:
+                builder.append(
+                    *(pair.second->getBoolean())?("true"):("false"));
+                break;
+                
             case LW_STRING:
                 builder.append("\"");
                 builder.append(String(*(pair.second->getString())));
                 builder.append("\"");
                 break;
+                
             default: break;
         }
 
@@ -43,8 +54,8 @@ void LuaConfig::save()
 
 Vector2di LuaConfig::getResolution()
 {
-    return Vector2di(*(getRoot().getField(X_RESOLUTION).getNumber()),
-                     *(getRoot().getField(Y_RESOLUTION).getNumber()));
+    return Vector2di(*(getRoot().getField(X_RESOLUTION).getInteger()),
+                     *(getRoot().getField(Y_RESOLUTION).getInteger()));
 }
 
 
@@ -58,7 +69,7 @@ void LuaConfig::setResolution(Vector2di resolution)
 
 int LuaConfig::getFPS()
 {
-    return *(getRoot().getField(FPS).getNumber());
+    return *(getRoot().getField(FPS).getInteger());
 }
 
 

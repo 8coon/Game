@@ -22,7 +22,7 @@ class UISkin_loadTexture: public LuaFunction
 private:
     UISkin* skin;
 public:
-    UISkin_loadTexture(UISkin* skin): LuaFunction() { this->skin = skin; }
+    UISkin_loadTexture(UISkin* skin, LuaWrapper* w): LuaFunction(w) { this->skin = skin; }
     String getSignature() { return "string fileName"; }
     void execute();
 };
@@ -33,7 +33,7 @@ class UISkin_setWidgetTexture: public LuaFunction
 private:
     UISkin* skin;
 public:
-    UISkin_setWidgetTexture(UISkin* skin): LuaFunction() { this->skin = skin; }
+    UISkin_setWidgetTexture(UISkin* skin, LuaWrapper* w): LuaFunction(w) { this->skin = skin; }
     String getSignature() { return "string name, number l, number t, number h, number w, number left, number top"; }
     void execute();
 };
@@ -44,7 +44,7 @@ class UISkin_loadFont: public LuaFunction
 private:
     UISkin* skin;
 public:
-    UISkin_loadFont(UISkin* skin): LuaFunction() { this->skin = skin; }
+    UISkin_loadFont(UISkin* skin, LuaWrapper* w): LuaFunction(w) { this->skin = skin; }
     String getSignature() { return "string fileName"; }
     void execute();
 };

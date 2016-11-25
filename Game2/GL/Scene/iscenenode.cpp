@@ -22,17 +22,38 @@ ISceneNode* ISceneNode::findNodeByName(const String& name)
 }
 
 
-void ISceneNode::draw(GLContext* context, bool alsoCamera) {
+void ISceneNode::pushTransformations(GLContext* context, float mult)
+{
     context->pushMatrix(GLM_BOTH, false);
     glPushAttrib(GL_CURRENT_BIT);
     
-    glTranslatef(pos.x, pos.y, pos.z);
-    glScalef(scale.x, scale.y, scale.z);
-    
-    glRotatef(rot.x, 1.0f, 0.0f, 0.0f);
-    glRotatef(rot.y, 0.0f, 1.0f, 0.0f);
-    glRotatef(rot.z, 0.0f, 0.0f, 1.0f);
-    
+    if (mult > 0.5f) {
+        glTranslatef(pos.x * mult, pos.y * mult, pos.z * mult);
+        glScalef(scale.x * mult, scale.y * mult, scale.z * mult);
+
+        glRotatef(rot.x * mult, 1.0f, 0.0f, 0.0f);
+        glRotatef(rot.y * mult, 0.0f, 1.0f, 0.0f);
+        glRotatef(rot.z * mult, 0.0f, 0.0f, 1.0f);
+    } else {
+        glRotatef(rot.z * mult, 0.0f, 0.0f, 1.0f);
+        glRotatef(rot.y * mult, 0.0f, 1.0f, 0.0f);
+        glRotatef(rot.x * mult, 1.0f, 0.0f, 0.0f);
+        
+        glScalef(scale.x / mult, scale.y / mult, scale.z / mult);
+        glTranslatef(pos.x * mult, pos.y * mult, pos.z * mult);
+    }
+}
+
+
+void ISceneNode::popTransformations(GLContext *context)
+{
+    glPopAttrib();
+    context->popMatrix();
+}
+
+
+void ISceneNode::draw(GLContext* context, bool alsoCamera) {
+    pushTransformations(context);
     renderChildren(context);
     
     if (isLightEmitter()) {
@@ -43,15 +64,12 @@ void ISceneNode::draw(GLContext* context, bool alsoCamera) {
     } else if (!isCamera() || alsoCamera) {
         int i = 0;
         
-        //std::cout << "Textures: " << textures.size() << std::endl;
         for (GLTexture* texture: textures) {
             glActiveTexture(GL_TEXTURE0 + i);
-            //std::cout << "Binding " << i << ", " << (void*) texture << std::endl;
             if (texture != NULL) texture->Bind();
             i++;
         }
         
-        //glActiveTexture(GL_TEXTURE0);
         render(context);
         
         i = 0;
@@ -62,6 +80,5 @@ void ISceneNode::draw(GLContext* context, bool alsoCamera) {
         }
     }
     
-    glPopAttrib();
-    context->popMatrix();
+    popTransformations(context);
 }

@@ -15,7 +15,7 @@ UIFont::UIFont(SDL_Renderer* renderer, const String& fileName)
 
     StringReader reader(descr.toStdString());
     LuaWrapper lua;
-    lua.addFunction("font_setLetter", new UIFont_setLetter(this));
+    lua.addFunction("font_setLetter", new UIFont_setLetter(this, &lua));
     lua.execute(&reader, NULL);
 }
 
@@ -23,10 +23,10 @@ UIFont::UIFont(SDL_Renderer* renderer, const String& fileName)
 void UIFont_setLetter::execute()
 {
     Rect pos;
-    pos.x = *(args.getField("x").getNumber());
-    pos.y = *(args.getField("y").getNumber());
-    pos.w = *(args.getField("width").getNumber());
-    pos.h = *(args.getField("height").getNumber());
+    pos.x = *(args.getField("x").getInteger());
+    pos.y = *(args.getField("y").getInteger());
+    pos.w = *(args.getField("width").getInteger());
+    pos.h = *(args.getField("height").getInteger());
 
     font->setLetter(*(args.getField("letter").getString()), pos);
 }

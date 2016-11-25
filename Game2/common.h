@@ -111,6 +111,8 @@ struct Vector3df
     Vector3df& mul(const float num)
         { x *= num; y *= num; z *= num; return *this; }
     Vector3df dup() { return Vector3df(*this); }
+    
+    float length() { return sqrtf(x*x + y*y + z*z); }
 };
 
 
@@ -125,6 +127,141 @@ int getTime();
 
 
 void RGBA2GLfloatv(const RGBA& rgba, GLfloat* floats, int len);
+
+
+template<typename T, int N> struct MatrixNd
+{
+    T data[N*N];
+    
+    T get(int row, int col) { return data[col * N + row]; }
+    void set(int row, int col, T val) { data[col * N + row] = val; }
+    
+    MatrixNd<T, N> dup() { return MatrixNd<T, N>(*this); }
+    MatrixNd<T, N - 1> minor(int row, int col);
+    void transpose();
+    MatrixNd<T, N> inverse();
+    void mul(float val)
+            { for (int i = 0; i < N*N; i++) { data[i] *= val; }; }
+    float def();
+    Vector3df mul(const Vector3df& vec);
+    
+    MatrixNd<T, N>() {}
+    MatrixNd<T, N>(T data[N*N]) { this->data = data; }
+    //MatrixNd<T, N>(const MatrixNd<T, N>& mat): MatrixNd<T, N>(mat.data) {}
+};
+
+
+typedef MatrixNd<float, 4> Matrix4df;
+typedef MatrixNd<int, 4> Matrix4di;
+typedef MatrixNd<float, 3> Matrix3df;
+typedef MatrixNd<int, 3> Matrix3di;
+typedef MatrixNd<float, 2> Matrix2df;
+typedef MatrixNd<int, 2> Matrix2di;
+
+
+template<typename T, int N> void MatrixNd<T, N>::transpose()
+{
+    MatrixNd<T, N> trans;
+    
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            trans.set(j, i, get(i, j));
+        }
+    }
+    
+    for (int i = 0; i < N*N; i++) {
+        data[i] = trans.data[i];
+    }
+}
+
+
+template<typename T, int N> MatrixNd<T, N - 1>
+MatrixNd<T, N>::minor(int row, int col)
+{
+    MatrixNd<T, N - 1> minor;
+    int drow = 0;
+    
+    for (int mrow = 0; mrow < N; mrow++) {
+        int dcol = 0;
+        
+        if (mrow != row) {
+            for (int mcol = 0; mcol < N; mcol++) {
+                if (mcol != col) {
+                    minor.set(drow, dcol, get(mrow, mcol));
+                    dcol++;
+                }
+            }
+            
+            drow++;
+        }
+    }
+    
+    return minor;
+}
+
+template<typename T> struct MatrixNd<T, 1>
+{
+    MatrixNd<T, 0> minor(int row, int col) { return NULL; }
+    void set(int row, int col, T val) {}
+    MatrixNd<T, 1> dup() { return MatrixNd<T, 1>(); }
+    void transpose() {}
+    MatrixNd<T, 0> inverse() { return NULL; }
+    void mul(float val) {}
+    float def() { return 0.0f; }
+};
+
+
+template<typename T, int N> float MatrixNd<T, N>::def()
+{
+    if (N < 1) return 0.0f;
+    if (N == 1) return (float) data[0];
+    if (N == 2) return get(0, 0) * get(1, 1) - get(0, 1) * get(1, 0);
+    float sum = 0;
+    
+    for (int col = 0; col < N; col++) {
+        MatrixNd<T, N - 1> minor = this->minor(0, col);
+        
+        float def = get(0, col) * minor.def();
+        if (col % 2 == 1) def *= -1.0f;
+        
+        sum += def;
+    }
+    
+    return sum;
+}
+
+
+template<typename T, int N> MatrixNd<T, N> MatrixNd<T, N>::inverse()
+{
+    MatrixNd<float, N> additions;
+    
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            float addition = minor(i, j).def();
+            if ((i + j) % 2 == 1) addition *= -1.0f;
+            additions.set(i, j, addition);
+        }
+    }
+    
+    additions.transpose();
+    additions.mul(1.0 / this->def());
+    return additions;
+}
+
+
+template<typename T, int N> Vector3df
+        MatrixNd<T, N>::mul(const Vector3df &vec)
+{
+    float w = 1.0f;
+    Vector3df res;
+    
+    res.x = get(0,0)*vec.x + get(0,1)*vec.y + get(0,2)*vec.z + get(0,3)*w;
+    res.y = get(1,0)*vec.x + get(1,1)*vec.y + get(1,2)*vec.z + get(1,3)*w;
+    res.z = get(2,0)*vec.x + get(2,1)*vec.y + get(2,2)*vec.z + get(2,3)*w;
+    
+    return res;
+}
+
 
 
 #endif // COMMON_H

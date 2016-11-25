@@ -66,6 +66,10 @@ GLWindow::GLWindow(LuaConfig *config)
         root = new UIWidget();
         root->setSkin(skin);
         root->setLayout(new UIAdjustiveLayout());
+        root->setHeight(resolution.y);
+        root->setWidth(resolution.x);
+        root->setLeft(0);
+        root->setTop(0);
     } else {
         std::cout << "SDL_Init error: " << SDL_GetError() << std::endl;
     }

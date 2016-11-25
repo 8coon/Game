@@ -46,7 +46,9 @@ public:
 };
 
 
-enum GLUniformType { UNIFORM_INT, UNIFORM_UINT, UNIFORM_FLOAT };
+enum GLUniformType { UNIFORM_INT, UNIFORM_UINT, UNIFORM_FLOAT,
+    UNIFORM_INT_ARRAY, UNIFORM_FLOAT_ARRAY, UNIFORM_VECTOR3DF,
+};
 
 
 class GLShaderUniform
@@ -56,11 +58,20 @@ public:
     GLint index = -1;
     GLuint uintValue = 0;
     GLfloat floatValue = 0.0f;
+    Vector3df vector3dfValue = Vector3df();
+    Vector<GLint> intArray;
+    Vector<GLfloat> floatArray;
     
     explicit GLShaderUniform(unsigned int val = 0)
         { type = UNIFORM_UINT; uintValue = val; }
     GLShaderUniform(float val, bool)
         { type = UNIFORM_FLOAT; floatValue = val; }
+    GLShaderUniform(const Vector<GLint>& array)
+        { type = UNIFORM_INT_ARRAY; intArray = array; }
+    GLShaderUniform(const Vector<GLfloat>& array)
+        { type = UNIFORM_FLOAT_ARRAY; floatArray = array; }
+    GLShaderUniform(const Vector3df& val)
+        { type = UNIFORM_VECTOR3DF; vector3dfValue = val; }
     virtual ~GLShaderUniform() {}
 };
 

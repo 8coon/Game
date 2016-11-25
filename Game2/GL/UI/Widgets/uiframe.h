@@ -13,7 +13,8 @@ class UIFrame: public UIWidget
 public:
     UIFrame(UIWidget* parent);
 
-    UIWidgetTexture getWidgetTexture() { return getSkin()->getWidgetTexture("FRAME"); }
+    UIWidgetTexture getWidgetTexture() {
+        return getSkin()->getWidgetTexture("FRAME"); }
     bool paintEvent(UISurface *surface);
 };
 

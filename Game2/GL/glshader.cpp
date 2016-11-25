@@ -69,6 +69,9 @@ void GLShaderProgram::setUniformValue(const String& name, GLShaderUniform value)
     switch(value.type) {
         case UNIFORM_UINT: uniforms[name].uintValue = value.uintValue; break;
         case UNIFORM_FLOAT: uniforms[name].floatValue = value.floatValue; break;
+        case UNIFORM_INT_ARRAY: uniforms[name].intArray = value.intArray; break;
+        case UNIFORM_FLOAT_ARRAY: uniforms[name].floatArray = value.floatArray; break;
+        case UNIFORM_VECTOR3DF: uniforms[name].vector3dfValue = value.vector3dfValue; break;
         default: break;
     }
 }
@@ -103,6 +106,22 @@ void GLShaderProgram::beginUse()
                 break;
             case UNIFORM_FLOAT:
                 glUniform1f(uniform.second.index, uniform.second.floatValue);
+                break;
+            case UNIFORM_INT_ARRAY:
+                glUniform1iv(uniform.second.index,
+                             (int) uniform.second.intArray.size(),
+                             uniform.second.intArray.data());
+                break;
+            case UNIFORM_FLOAT_ARRAY:
+                glUniform1fv(uniform.second.index,
+                             (int) uniform.second.floatArray.size(),
+                             uniform.second.floatArray.data());
+                break;
+            case UNIFORM_VECTOR3DF:
+                glUniform3f(uniform.second.index,
+                            (GLfloat) uniform.second.vector3dfValue.x,
+                            (GLfloat) uniform.second.vector3dfValue.y,
+                            (GLfloat) uniform.second.vector3dfValue.z);
                 break;
         }
     }
