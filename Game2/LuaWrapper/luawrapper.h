@@ -27,7 +27,7 @@ public:
     LuaObject() {}
     LuaObject(const LuaObject& obj) { fields = obj.fields; pValue = obj.pValue; type = obj.type; }
     LuaObject(int i) { setInteger(i); }
-    LuaObject(bool b) {}
+    //LuaObject(bool b) { setBoolean(b); }
     
     static LuaObject fromFunction(int i) {
         LuaObject res = LuaObject(i);
@@ -38,6 +38,12 @@ public:
     static LuaObject fromNil() {
         LuaObject res = LuaObject();
         res.type = LW_NIL;
+        return res;
+    }
+    
+    static LuaObject fromBool(bool b) {
+        LuaObject res;
+        res.setBoolean(b);
         return res;
     }
     
@@ -112,7 +118,7 @@ public:
     LuaWrapper();
     ~LuaWrapper() { lua_close(lua); }
     
-    LuaObject callLuaFunction(LuaObject function, Vector<LuaObject> args,
+    LuaObject callLuaFunction(LuaObject function, Vector<LuaObject>* args,
                               int* luaErr = NULL);
 
     lua_State* getLua() { return lua; }

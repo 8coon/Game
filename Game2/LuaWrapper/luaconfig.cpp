@@ -9,9 +9,32 @@ LuaConfig::LuaConfig(): LuaWrapper()
     getRoot().setField(FULLSCREEN, LuaObject(FALSE));
     getRoot().setField(VSYNC, LuaObject(TRUE));
     getRoot().setField(HIGHDPI, LuaObject(FALSE));
+    
+#ifdef LUA_FUNC_TEST
+    getRoot().setField("test_func", LuaObject());
+#endif
 
     TextFileReader reader(CONFIG_FILE);
     execute(&reader, NULL);
+    
+#ifdef LUA_FUNC_TEST
+    Vector<LuaObject> args;
+    
+    LuaObject table;
+    table.setField("first", LuaObject(String("As a matter of fact, ")));
+    table.setField("second", LuaObject(String(" but ")));
+    
+    args.push_back(LuaObject(String("I am written in Lua")));
+    args.push_back(LuaObject(String("called from C++!")));
+    args.push_back(table);
+    
+    LuaObject func = getRoot().getField("test_func");
+    LuaObject res = callLuaFunction(func, &args);
+    
+    std::cout << *(res.getField("str").getString());
+    std::cout << *(res.getField("int").getInteger()) << ", ";
+    std::cout << *(res.getField("float").getNumber()) << std::endl;
+#endif
 }
 
 

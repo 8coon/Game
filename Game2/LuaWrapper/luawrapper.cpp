@@ -8,18 +8,18 @@ LuaWrapper::LuaWrapper()
 
 
 LuaObject LuaWrapper::callLuaFunction(LuaObject function,
-                                      Vector<LuaObject> args, int* luaErr)
+                                      Vector<LuaObject>* args, int* luaErr)
 {
     leaveFunctionBinding(*(function.getInteger()));
     
-    for (LuaObject& arg: args) {
+    for (LuaObject arg: *args) {
         pushValue(arg);
     }
     
-    int err = lua_pcall(lua, (int) args.size(), 1, 0);
+    int err = lua_pcall(lua, (int) args->size(), 1, 0);
     if (luaErr != NULL) *luaErr = err;
     
-    return pullValue();
+    return pullValue(lua_gettop(lua));
 }
 
 
@@ -74,7 +74,7 @@ void LuaWrapper::leaveFunctionBinding(int idx)
         throw RuntimeException("Failed to check Lua function binging!");
     
     int has_binding = (int) lua_toboolean(lua, -1);
-    lua_pop(lua, -1);
+    lua_pop(lua, 1);
     
     if (has_binding != 0) {
         lua_getglobal(lua, "get_function_binding");
@@ -105,7 +105,7 @@ void LuaWrapper::pushGlobalObject(LuaObject &obj, int idx)
         lua_setfield(lua, idx, key);
     }
     
-    if (should_pop) lua_pop(lua, -1);
+    if (should_pop) lua_pop(lua, 1);
 }
 
 
@@ -119,9 +119,9 @@ LuaObject LuaWrapper::pullValue(int val_idx)
             int val = lua_toboolean(lua, val_idx);
             
             if (val != 0) {
-                return LuaObject(true);
+                return LuaObject::fromBool(true);
             } else {
-                return LuaObject(false);
+                return LuaObject::fromBool(false);
             }
             
         }
@@ -153,8 +153,12 @@ LuaObject LuaWrapper::pullValue(int val_idx)
             lua_getglobal(lua, "create_function_binding");
             lua_pushvalue(lua, val_idx);
             
-            if (lua_pcall(lua, 1, 1, 0) != 0)
-                throw RuntimeException("Failed to create Lua function binging!");
+            if (lua_pcall(lua, 1, 1, 0) != 0) {
+                String msg = "Failed to create Lua function binging! Lua error message: ";
+                msg = msg + String(lua_tostring(lua, -1));
+                
+                std::cout << msg << std::endl;
+            }
             
             int func_idx = (int) lua_tointeger(lua, -1);
             LuaObject val = LuaObject::fromFunction(func_idx);
@@ -194,14 +198,18 @@ void LuaWrapper::pullGlobalObject(LuaObject &obj, int idx)
         
         lua_pushvalue(lua, key_idx);
         String key = lua_tostring(lua, -1);
-        std::cout << key << std::endl;
-        lua_pop(lua, -1);
+        lua_pop(lua, 1);
         
-        obj.setField(key, pullValue(val_idx));
-        lua_pop(lua, -1);
+        LuaObject val = pullValue(val_idx);
+        obj.setField(key, val);
+        
+#ifdef LUA_LOG
+        std::cout << key << " = " << val << std::endl;
+#endif
+        lua_pop(lua, 1);
     }
     
-    if (should_pop) lua_pop(lua, -1);
+    if (should_pop) lua_pop(lua, 1);
 }
 
 
@@ -415,7 +423,7 @@ int LuaWrapper::execute(TextReader *in, TextWriter *out)
             std::cout << pair.first << " = " << val << std::endl;
         #endif
         
-        lua_pop(lua, -1);
+        lua_pop(lua, 1);
     }
     
     //pullGlobalObject(root);
@@ -444,11 +452,11 @@ std::ostream& operator<<(std::ostream& stream, LuaObject& obj)
     switch (obj.getType()) {
         case LW_NIL: stream << "NULL"; break;
         case LW_INTEGER: stream << *(obj.getInteger()); break;
-        case LW_TABLE: stream << "[Table@" << *(obj.getInteger()); break;
-        case LW_NUMBER: stream << *(obj.getNumber()); break;
+        case LW_TABLE: stream << "[Table@" << (unsigned long)(&obj); break;
+        case LW_NUMBER: stream << *(obj.getNumber()) << "]"; break;
         case LW_STRING: stream << '"' << *(obj.getString()) << '"'; break;
         case LW_BOOLEAN: stream << ((*obj.getBoolean())?("true"):("false")); break;
-        case LW_FUNCTION: stream << "[Function@" << *(obj.getInteger()); break;
+        case LW_FUNCTION: stream << "[Function@" << *(obj.getInteger()) << "]"; break;
         default: break;
     }
     

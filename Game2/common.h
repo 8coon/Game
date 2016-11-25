@@ -4,6 +4,16 @@
 #define PROJECT_TITLE "Project World"
 #define PROJECT_VERSION "0.0.1 alpha"
 
+// =====[ Build Configuration ]=====
+
+#define OSX
+#define NO_SDL_GLEXT
+#define LUA_FUNC_TEST
+#define LUA_LOG
+
+// =====[ End Build Configuration ]=====
+
+
 #include "SDL2/SDL.h"
 #include <iostream>
 #include <OpenGL/gl.h>

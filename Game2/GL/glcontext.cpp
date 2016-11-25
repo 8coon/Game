@@ -28,11 +28,6 @@ GLContext::GLContext(GLWindow* window)
     glColor4f(1.0, 1.0, 1.0, 1.0);
     
     SDL_GL_SetSwapInterval(1);
-    
-#ifdef OSX
-    glewExperimental = GL_TRUE;
-    glewInit();
-#endif
 }
 
 

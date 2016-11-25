@@ -1,6 +1,4 @@
 
-#define OSX
-#define NO_SDL_GLEXT
 
 #include <iostream>
 #include "SDL2/SDL.h"
