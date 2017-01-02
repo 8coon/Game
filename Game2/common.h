@@ -8,7 +8,7 @@
 
 #define OSX
 #define NO_SDL_GLEXT
-#define LUA_FUNC_TEST
+//#define LUA_FUNC_TEST
 #define LUA_LOG
 
 // =====[ End Build Configuration ]=====

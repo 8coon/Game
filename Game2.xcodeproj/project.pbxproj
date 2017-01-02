@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D1972841DAAC8FE006ECE51 /* libLua.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1972831DAAC8FE006ECE51 /* libLua.dylib */; };
 		7D1972861DB02300006ECE51 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1972851DB02300006ECE51 /* OpenGL.framework */; };
 		7D19728B1DB0260C006ECE51 /* glcontext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972891DB0260C006ECE51 /* glcontext.cpp */; };
 		7D1972A51DB76F30006ECE51 /* iscenenode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D1972A31DB76F2F006ECE51 /* iscenenode.cpp */; };
@@ -43,6 +42,12 @@
 		7D4B3EE31DA83ED20088B2D6 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4B3EE11DA83ED20088B2D6 /* SDL2.framework */; };
 		7D4B3EE41DA83FB10088B2D6 /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D4B3EE01DA83ED20088B2D6 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7D4B3EE51DA83FB10088B2D6 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D4B3EE11DA83ED20088B2D6 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7D8FDEFC1E1AADA000B08A78 /* libLua.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8FDEFB1E1AADA000B08A78 /* libLua.dylib */; };
+		7D8FDEFD1E1AADA800B08A78 /* libLua.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDEFB1E1AADA000B08A78 /* libLua.dylib */; };
+		7D8FDF011E1AADE300B08A78 /* Art in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDEFE1E1AADE300B08A78 /* Art */; };
+		7D8FDF021E1AADE300B08A78 /* Binutils in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDEFF1E1AADE300B08A78 /* Binutils */; };
+		7D8FDF031E1AADE300B08A78 /* Scripts in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDF001E1AADE300B08A78 /* Scripts */; };
+		7D8FDF051E1AAF2500B08A78 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDF041E1AAF2500B08A78 /* Shaders */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +57,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				7D8FDF051E1AAF2500B08A78 /* Shaders in CopyFiles */,
+				7D8FDF011E1AADE300B08A78 /* Art in CopyFiles */,
+				7D8FDF021E1AADE300B08A78 /* Binutils in CopyFiles */,
+				7D8FDF031E1AADE300B08A78 /* Scripts in CopyFiles */,
+				7D8FDEFD1E1AADA800B08A78 /* libLua.dylib in CopyFiles */,
 				7D4B3EE41DA83FB10088B2D6 /* SDL2_image.framework in CopyFiles */,
 				7D4B3EE51DA83FB10088B2D6 /* SDL2.framework in CopyFiles */,
 			);
@@ -60,7 +70,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7D1972831DAAC8FE006ECE51 /* libLua.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLua.dylib; path = "../../../../Library/Developer/Xcode/DerivedData/Game-bvxmecgksxbolgffszowvzcizitu/Build/Products/Release/libLua.dylib"; sourceTree = "<group>"; };
 		7D1972851DB02300006ECE51 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7D1972891DB0260C006ECE51 /* glcontext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glcontext.cpp; sourceTree = "<group>"; };
 		7D19728A1DB0260C006ECE51 /* glcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glcontext.h; sourceTree = "<group>"; };
@@ -213,6 +222,11 @@
 		7D4B3FBB1DA84CD40088B2D6 /* SDL_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_types.h; sourceTree = "<group>"; };
 		7D4B3FBC1DA84CD40088B2D6 /* SDL_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_version.h; sourceTree = "<group>"; };
 		7D4B3FBD1DA84CD40088B2D6 /* SDL_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_video.h; sourceTree = "<group>"; };
+		7D8FDEFB1E1AADA000B08A78 /* libLua.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libLua.dylib; path = Libs/Lua/osx/libLua.dylib; sourceTree = "<group>"; };
+		7D8FDEFE1E1AADE300B08A78 /* Art */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Art; sourceTree = "<group>"; };
+		7D8FDEFF1E1AADE300B08A78 /* Binutils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Binutils; sourceTree = "<group>"; };
+		7D8FDF001E1AADE300B08A78 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
+		7D8FDF041E1AAF2500B08A78 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,7 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D1972841DAAC8FE006ECE51 /* libLua.dylib in Frameworks */,
+				7D8FDEFC1E1AADA000B08A78 /* libLua.dylib in Frameworks */,
 				7D1972861DB02300006ECE51 /* OpenGL.framework in Frameworks */,
 				7D4B3EE31DA83ED20088B2D6 /* SDL2.framework in Frameworks */,
 				7D4B3EE21DA83ED20088B2D6 /* SDL2_image.framework in Frameworks */,
@@ -253,6 +267,10 @@
 		7D4B3C261DA83B5C0088B2D6 = {
 			isa = PBXGroup;
 			children = (
+				7D8FDF041E1AAF2500B08A78 /* Shaders */,
+				7D8FDEFE1E1AADE300B08A78 /* Art */,
+				7D8FDEFF1E1AADE300B08A78 /* Binutils */,
+				7D8FDF001E1AADE300B08A78 /* Scripts */,
 				7D4B3C311DA83B5C0088B2D6 /* Game2 */,
 				7D4B3C301DA83B5C0088B2D6 /* Products */,
 				7D4B3EDF1DA83ED20088B2D6 /* Frameworks */,
@@ -420,8 +438,8 @@
 		7D4B3EDF1DA83ED20088B2D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D8FDEFB1E1AADA000B08A78 /* libLua.dylib */,
 				7D1972851DB02300006ECE51 /* OpenGL.framework */,
-				7D1972831DAAC8FE006ECE51 /* libLua.dylib */,
 				7D4B3EE01DA83ED20088B2D6 /* SDL2_image.framework */,
 				7D4B3EE11DA83ED20088B2D6 /* SDL2.framework */,
 			);
@@ -702,6 +720,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Game2/Src/SDL/win32/lib",
 					"$(PROJECT_DIR)/Game2/SDL/win32/lib",
+					"$(PROJECT_DIR)/Libs/Lua/osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -724,6 +743,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Game2/Src/SDL/win32/lib",
 					"$(PROJECT_DIR)/Game2/SDL/win32/lib",
+					"$(PROJECT_DIR)/Libs/Lua/osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
