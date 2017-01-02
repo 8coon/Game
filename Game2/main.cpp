@@ -27,6 +27,8 @@
 #include "GL/Scene/scene.h"
 #include "GL/Scene/snlandscapenode.h"
 #include "GL/glshader.h"
+#include "Game/2D/2dmap.h"
+#include "Game/2D/2dgame.h"
 
 
 #include <time.h>
@@ -39,6 +41,15 @@ using namespace coon;
 
 
 int main()
+{
+    C2DGame game("Scripts/Game/main.lua");
+    
+    SDL_Quit();
+    return 0;
+}
+
+
+int main2()
 {
     LuaConfig* config = new LuaConfig();
     GLWindow* window = new GLWindow(config);

@@ -48,6 +48,8 @@
 		7D8FDF021E1AADE300B08A78 /* Binutils in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDEFF1E1AADE300B08A78 /* Binutils */; };
 		7D8FDF031E1AADE300B08A78 /* Scripts in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDF001E1AADE300B08A78 /* Scripts */; };
 		7D8FDF051E1AAF2500B08A78 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D8FDF041E1AAF2500B08A78 /* Shaders */; };
+		7D8FDF0D1E1AB07600B08A78 /* 2dmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D8FDF0B1E1AB07600B08A78 /* 2dmap.cpp */; };
+		7D8FDF101E1AB0F500B08A78 /* 2dgame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D8FDF0E1E1AB0F500B08A78 /* 2dgame.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -227,6 +229,10 @@
 		7D8FDEFF1E1AADE300B08A78 /* Binutils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Binutils; sourceTree = "<group>"; };
 		7D8FDF001E1AADE300B08A78 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		7D8FDF041E1AAF2500B08A78 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		7D8FDF0B1E1AB07600B08A78 /* 2dmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = 2dmap.cpp; path = Game/2D/2dmap.cpp; sourceTree = "<group>"; };
+		7D8FDF0C1E1AB07600B08A78 /* 2dmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = 2dmap.h; path = Game/2D/2dmap.h; sourceTree = "<group>"; };
+		7D8FDF0E1E1AB0F500B08A78 /* 2dgame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = 2dgame.cpp; path = Game/2D/2dgame.cpp; sourceTree = "<group>"; };
+		7D8FDF0F1E1AB0F500B08A78 /* 2dgame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = 2dgame.h; path = Game/2D/2dgame.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +298,7 @@
 				7D4B3F821DA84CD40088B2D6 /* SDL2 */,
 				7D4B3DD51DA83CC20088B2D6 /* common.cpp */,
 				7D4B3DD61DA83CC20088B2D6 /* common.h */,
+				7D8FDF091E1AB02D00B08A78 /* Game */,
 				7D4B3DD71DA83CC20088B2D6 /* Containers */,
 				7D4B3DD91DA83CC20088B2D6 /* GL */,
 				7D4B3DF41DA83CC20088B2D6 /* Lua */,
@@ -520,6 +527,25 @@
 			path = SDL2;
 			sourceTree = "<group>";
 		};
+		7D8FDF091E1AB02D00B08A78 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				7D8FDF0A1E1AB03500B08A78 /* 2D */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		7D8FDF0A1E1AB03500B08A78 /* 2D */ = {
+			isa = PBXGroup;
+			children = (
+				7D8FDF0B1E1AB07600B08A78 /* 2dmap.cpp */,
+				7D8FDF0C1E1AB07600B08A78 /* 2dmap.h */,
+				7D8FDF0E1E1AB0F500B08A78 /* 2dgame.cpp */,
+				7D8FDF0F1E1AB0F500B08A78 /* 2dgame.h */,
+			);
+			name = 2D;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -587,6 +613,8 @@
 				7D1972B51DB98CF7006ECE51 /* snlightnode.cpp in Sources */,
 				7D4B3EA81DA83CC20088B2D6 /* uiboxlayout.cpp in Sources */,
 				7D4B3ED51DA83CC20088B2D6 /* main.cpp in Sources */,
+				7D8FDF0D1E1AB07600B08A78 /* 2dmap.cpp in Sources */,
+				7D8FDF101E1AB0F500B08A78 /* 2dgame.cpp in Sources */,
 				7D4B3EA41DA83CC20088B2D6 /* uifont.cpp in Sources */,
 				7D1972A51DB76F30006ECE51 /* iscenenode.cpp in Sources */,
 				7D4B3EA51DA83CC20088B2D6 /* uiskin.cpp in Sources */,

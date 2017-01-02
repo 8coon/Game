@@ -1,9 +1,33 @@
 #include "luawrapper.h"
 
+
+static const luaL_Reg loadedlibs[] = {
+    {"_G", luaopen_base},
+    //{LUA_LOADLIBNAME, luaopen_package},
+    {LUA_COLIBNAME, luaopen_coroutine},
+    {LUA_TABLIBNAME, luaopen_table},
+    //{LUA_IOLIBNAME, luaopen_io},
+    //{LUA_OSLIBNAME, luaopen_os},
+    {LUA_STRLIBNAME, luaopen_string},
+    {LUA_MATHLIBNAME, luaopen_math},
+    {LUA_UTF8LIBNAME, luaopen_utf8},
+    //{LUA_DBLIBNAME, luaopen_debug},
+#if defined(LUA_COMPAT_BITLIB)
+    {LUA_BITLIBNAME, luaopen_bit32},
+#endif
+    {NULL, NULL}
+};
+
+
 LuaWrapper::LuaWrapper()
 {
     lua = luaL_newstate();
-    luaopen_base(lua);
+    const luaL_Reg *lib;
+    
+    for (lib = loadedlibs; lib->func; lib++) {
+        luaL_requiref(lua, lib->name, lib->func, 1);
+        lua_pop(lua, 1);
+    }
 }
 
 
@@ -386,6 +410,21 @@ String LuaWrapper::loadFile(TextReader *in, Map<String, bool> loaded)
                     builder.append(loadFile(line, loaded));
                     builder.append(String("\n"));
                 }
+                
+            } else if (line.startsWith("#class")) {
+                line.replace("#class", "");
+                builder.append(line + String(" = create_class(\"") +
+                               line + String("\", function()\n") +
+                               String("local _ENV = make_env()\n"));
+                
+            } else if (line.startsWith("#endclass")) {
+                builder.append("return _ENV \n end)");
+                
+            } else if (line.startsWith("#extends")) {
+                line.replace("#extends", "");
+                builder.append(String("_EXTENDS(\"") + line +
+                               String("\", ") + line + String(")\n"));
+            
             } else {
                 builder.append(rawline);
                 builder.append(String("\n"));
@@ -435,11 +474,20 @@ int LuaWrapper::execute(TextReader *in, TextWriter *out)
 void LuaWrapper::clear()
 {
     lua_close(lua);
+    
     lua = luaL_newstate();
-    luaopen_base(lua);
-    luaopen_string(lua);
-    luaopen_math(lua);
-    luaopen_table(lua);
+    const luaL_Reg *lib;
+    
+    for (lib = loadedlibs; lib->func; lib++) {
+        luaL_requiref(lua, lib->name, lib->func, 1);
+        lua_pop(lua, 1);
+    }
+    
+/*lua = luaL_newstate();
+luaopen_base(lua);
+luaopen_string(lua);
+luaopen_math(lua);
+luaopen_table(lua);*/
 
     lua_pushcfunction(lua, luaFunctionCaller);
     lua_setglobal(lua, "internalCall");

@@ -52,6 +52,7 @@ class String
 {
 private:
     Vector<Char> chars;
+    Char zero;
 public:
     String();
     String(const char* ch);
@@ -83,7 +84,8 @@ public:
     Vector<Char>::const_iterator end() const { return chars.end(); }
 
     bool isNull() { return size() == 0; }
-    const Char& at(int index) const { return chars.at(index); }
+    const Char& at(int index) const
+        { if (index >= size()) return zero; return chars.at(index); }
     void set(int index, Char value) { chars[index] = value; }
     bool equals(const String& another) const;
     bool equalsIgnoreCase(const String &another) const;
